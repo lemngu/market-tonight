@@ -1,4 +1,4 @@
-:HL["/MarketTonight/_next/static/chunks/3leb5xrsr1hi7.css","style"]
+:HL["/market-tonight/_next/static/chunks/3leb5xrsr1hi7.css","style"]
 4:[["children",{"s":"__PAGE__","h":160}]]
 3:[["children",{"s":{"n":"routeId","t":"d","k":"vegan","s":[]},"h":96,"c":"$Q4"}]]
 2:[["children",{"s":"routes","h":96,"c":"$Q3"}]]
