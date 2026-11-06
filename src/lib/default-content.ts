@@ -1,12 +1,14 @@
-import type { Content } from './content-schema'
+import { contentSchema, type Content } from './content-schema'
+import { applySectionCopy } from './section-copy'
 import { pageDefaults } from './page-defaults'
+import { recommendedHeroCopy } from './hero-copy'
 
-export const defaultContent: Content = {
+const baseContent = {
   site: {
     ...pageDefaults,
     brand: '구월모래내시장', metaTitle: '구월모래내, 취향 따라 맛길 | Market ToNight', metaDescription: '다섯 가지 취향으로 만나는 구월모래내시장 미식 안내',
     navRoutesLabel: '미식루트', navEventLabel: '행사안내',
-    hero: { eyebrow: '구월모래내시장', titleLine1: '구월모래내', titleLine2: '맛길 안내서.', description: '다섯 가지 취향. 오늘 끌리는 맛으로 걸어요.', ctaLabel: '내 취향의 맛길 펼치기', image: null, caption: '11월 13일, 시장에서 만나요.', footLeft: '취향 따라 고르고, 골목 따라 걷고.', footRight: '인천 구월모래내시장' },
+    hero: { ...recommendedHeroCopy, eyebrow: '구월모래내시장', ctaLabel: '내 취향의 맛길 펼치기', image: null, caption: '11월 13일, 시장에서 만나요.', footLeft: '취향 따라 고르고, 골목 따라 걷고.', footRight: '인천 구월모래내시장' },
     routesSection: { title: '다섯 가지 시장 산책.', description: '오늘 끌리는 맛을 골라보세요. 점포와 메뉴를 함께 살펴볼 수 있어요.', selectedLabel: '지금 펼친 맛길', searchPlaceholder: '점포명·대표 상품 검색', countLabel: '소개하는 점포', advisory: '가격·영업시간은 방문 전 점포에 확인해주세요.', emptyTitle: '검색 결과가 없어요', emptyMessage: '다른 검색어를 입력해보세요.', preparingTitle: '이 맛길의 점포를 확인하고 있어요.', preparingDescription: '메뉴와 운영 정보를 확인한 점포부터 소개할게요.', resetLabel: '검색 조건 초기화', priceLabel: '가격대', hoursLabel: '영업시간', unconfirmedLabel: '확인 중', menuUnconfirmedLabel: '대표 상품 확인 중', detailLabel: '자세히 보기' },
     festival: { isVisible: true, heading: '시장이 켜지는 금요일.', name: 'Market ToNight', highlights: '행사 프로그램을 준비 중입니다.', date: '2026.11.13.', schedule: '금요일 14:00–21:00', location: '인천 구월모래내시장 일대', programHours: '스쿨뮤직 프로그램 16:00–21:00', note: '세부 공연 시간표는 확정 후 안내합니다.', linkLabel: '행사 포스터 보기', poster: null },
     notice: '메뉴·가격·영업시간은 변경될 수 있습니다. 방문 전 점포에 확인해주세요.',
@@ -22,3 +24,5 @@ export const defaultContent: Content = {
   ],
   stores: [],
 }
+
+export const defaultContent: Content = applySectionCopy(contentSchema.parse(baseContent))

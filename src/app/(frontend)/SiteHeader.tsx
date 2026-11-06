@@ -31,11 +31,21 @@ export default function SiteHeader({ site }: { site: SiteCopy }) {
   }, [open])
   return <>
     <header className={'topbar shared-header' + (open ? ' menu-is-open' : '')}><div className="topbar-inner">
-      <a className="header-logos" href="/" aria-label={site.brand + ' 홈'}><Image unoptimized priority className="festival-logo" src={'/assets/Korea-Grand-Festival_logo_' + (open ? 'white' : 'black') + '.svg'} alt="코리아그랜드페스티벌" width={661} height={370} /><span className="header-logo-cross" aria-hidden="true">|</span><Image unoptimized priority className="market-logo" src={'/assets/Market-Tonight_logo_' + (open ? 'white' : 'black') + '.svg'} alt="Market Tonight" width={487} height={180} /></a>
+      <a className="header-logos" href="/" aria-label={site.brand + ' 홈'}>
+        <span className="header-logo-stack">
+          <Image unoptimized priority className="festival-logo logo-layer logo-layer-dark" src="/assets/navigation/Korea-Grand-Festival_logo_black.svg" alt="코리아그랜드페스티벌" width={304} height={170} />
+          <Image unoptimized priority className="festival-logo logo-layer logo-layer-light" src="/assets/navigation/Korea-Grand-Festival_logo_white.svg" alt="" aria-hidden="true" width={138} height={74} />
+        </span>
+        <span className="header-logo-cross" aria-hidden="true">|</span>
+        <span className="header-logo-stack">
+          <Image unoptimized priority className="market-logo logo-layer logo-layer-dark" src="/assets/navigation/Market-Tonight_logo_black.svg" alt="Market Tonight" width={487} height={180} />
+          <Image unoptimized priority className="market-logo logo-layer logo-layer-light" src="/assets/navigation/Market-Tonight_logo_white.svg" alt="" aria-hidden="true" width={99} height={37} />
+        </span>
+      </a>
       <button ref={button} type="button" className={'menu-trigger fixed-menu-toggle' + (open ? ' is-open' : '')} aria-controls="site-menu" aria-expanded={open} aria-label={open ? '전체 메뉴 닫기' : '전체 메뉴 열기'} onClick={() => { locate(); setOpen(!open) }}><span /><span /><span /></button>
     </div></header>
     <div ref={overlay} id="site-menu" className={'radial-menu' + (open ? ' is-open' : '')} role="dialog" aria-modal={open ? true : undefined} aria-label="전체 메뉴" aria-hidden={!open} inert={!open} style={{ '--menu-inset': menuInset, '--menu-x': origin.x, '--menu-y': origin.y } as CSSProperties}>
-      <div className="radial-menu-content"><p>GUWOL MORAENAE / MARKET TONIGHT</p><nav aria-label="전체 메뉴 항목">{[['/', '홈', 'HOME'], ['/routes', site.navRoutesLabel, 'TASTE ROUTES'], ['/festival', site.navEventLabel, 'FESTIVAL'], ['/map', '지도', 'MARKET MAP']].map(([href,title,english],index) => <a key={href} href={href} onClick={() => setOpen(false)}><span>{String(index + 1).padStart(2,'0')}</span><strong>{title}</strong><small>{english} ↗</small></a>)}</nav><p>오늘 끌리는 맛으로, 구월모래내시장.</p></div>
+      <div className="radial-menu-content"><p>GUWOL MORAENAE / MARKET TONIGHT</p><nav aria-label="전체 메뉴 항목">{[['/', '홈', 'HOME'], ['/routes', site.navRoutesLabel, 'TASTE ROUTES'], ['/festival', site.navEventLabel, 'FESTIVAL'], ['/map', '지도', 'MARKET MAP']].map(([href,title,english],index) => <a key={href} href={href} onClick={() => setOpen(false)}><span>{String(index + 1).padStart(2,'0')}</span><strong>{title}</strong><small>{english} ↗</small></a>)}</nav><p>{site.menuTagline}</p></div>
     </div>
   </>
 }

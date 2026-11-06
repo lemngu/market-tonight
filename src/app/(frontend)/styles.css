@@ -1918,7 +1918,6 @@ footer h2 {
 .footer-admin-button { display: inline-flex; min-height: 44px; align-items: center; margin-top: 18px; padding: 10px 18px; border: 2px solid var(--navy); background: var(--navy); color: var(--white); font-weight: 800; }
 .footer-admin-button:hover { background: var(--blue); }
 .selected-route-label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 800; }
-.route-advisory { margin-top: 12px; max-width: 580px; }
 .store-details { margin-top: 18px; border-top: 1px solid currentColor; padding-top: 12px; }
 .store-details summary { cursor: pointer; font-weight: 800; }
 .store-details p { margin-top: 12px; font-size: 13px; }
@@ -1926,4 +1925,3 @@ footer h2 {
 .empty-result button { margin-top: 16px; padding: 12px 20px; border: 2px solid currentColor; }
 @keyframes institution-flow { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .sponsor-track { animation: none; } .sponsor-loop { overflow-x: auto; } .sponsor-set[aria-hidden=true] { display: none; } }
-

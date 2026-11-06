@@ -1,4 +1,5 @@
-export const pageDefaults = {
+import { sectionCopy, updateProgramCopy } from './section-copy'
+const basePageDefaults = {
   "routePage": {
     "eyebrow": "GUWOL MORAENAE / TASTE ROUTES",
     "title": "취향 따라 고르고,\n골목 따라 걷고.",
@@ -69,4 +70,10 @@ export const pageDefaults = {
     "placeholderTitle": "구월모래내시장 지도",
     "placeholderDescription": "지도가 완성되면 이곳에서 만나보세요.\n현재 배경과 표시는 디자인 확인용 예시입니다."
   }
+}
+
+export const pageDefaults = {
+  routePage: { ...basePageDefaults.routePage, ...sectionCopy.routePage },
+  festivalPage: { ...basePageDefaults.festivalPage, ...sectionCopy.festivalPage, programs: basePageDefaults.festivalPage.programs.map(updateProgramCopy) },
+  mapPage: { ...basePageDefaults.mapPage, ...sectionCopy.mapPage },
 }

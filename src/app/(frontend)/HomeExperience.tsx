@@ -13,6 +13,12 @@ import SiteHeader from './SiteHeader'
 import SiteFooter from './SiteFooter'
 import PatternRibbon from './PatternRibbon'
 import StoreModal from './StoreModal'
+import { getRouteColors } from '@/lib/route-colors'
+
+function routeStyle(id: string, index = 0): CSSProperties {
+  const palette = getRouteColors(id, index)
+  return { '--route-color': palette.color, '--route-accent': palette.accent, '--route-tint': palette.tint, '--route-ink': palette.ink, '--route-strong': palette.strong } as CSSProperties
+}
 
 export default function HomeExperience({
   site,
@@ -39,7 +45,8 @@ export default function HomeExperience({
   const routeStores = useMemo(() => sourceStores.filter(store => activeRoute && store.routeIds.includes(activeRoute.id)), [activeRoute, sourceStores])
   const menusForStore = (store: HomeStore) => store.menus?.length ? store.menus : (store.menu.trim() ? [store.menu.trim()] : [])
   const menuOptions = Array.from(new Set(routeStores.flatMap(menusForStore))).sort((a,b) => a.localeCompare(b,'ko'))
-  const visibleStores = routeStores.filter(store => !selectedMenu || menusForStore(store).includes(selectedMenu))
+  const currentMenu = menuOptions.includes(selectedMenu) ? selectedMenu : ''
+  const visibleStores = routeStores.filter(store => !currentMenu || menusForStore(store).includes(currentMenu))
 
   const pageSize = 6
   const totalPages = Math.max(1, Math.ceil(visibleStores.length / pageSize))
@@ -53,7 +60,7 @@ export default function HomeExperience({
 
       <main id="top">
         {detailMode && <div className="detail-page-inner route-detail-heading"><a className="detail-breadcrumb" href="/">홈 / 미식루트</a><header className="detail-page-heading"><span>{site.routePage.eyebrow}</span><h1>{site.routePage.title}</h1><p>{site.routePage.description}</p></header></div>}
-        {!detailMode && <><section className="hero"><div className="hero-inner">
+        {!detailMode && <><section className="hero hero-editorial"><div className="hero-inner">
           <div aria-hidden="true" className="hero-shape hero-shape-one" />
           <div aria-hidden="true" className="hero-shape hero-shape-two" />
           <div className="hero-label">
@@ -62,12 +69,18 @@ export default function HomeExperience({
           </div>
           <div className="hero-card">
             <div className="hero-copy">
-              <p className="hero-kicker">MARKET TONIGHT / INCHEON</p>
+              <p className="hero-kicker">{site.hero.kicker}</p>
               <h1>
                 <span>{site.hero.titleLine1}</span>
                 <span>{site.hero.titleLine2}</span>
               </h1>
-              <p>{site.hero.description}</p>
+              <p className="hero-brand-title">{site.hero.brandTitle}</p>
+              <p className="hero-description">{site.hero.description}</p>
+              <dl className="hero-event-info">
+                <div><dt className="sr-only">행사 일시</dt><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M7 2v6m10-6v6M3 11h18M7 15h2m3 0h2m3 0h1M7 18h2m3 0h2"/></svg><dd>{site.hero.eventDate}</dd></div>
+                <div><dt className="sr-only">행사 장소</dt><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><dd>{site.hero.eventLocation}</dd></div>
+              </dl>
+              <p className="hero-program-line">{site.hero.programLine}</p>
               <a className="primary-button" href="#routes">
                 {site.hero.ctaLabel} <span aria-hidden="true">↘</span>
               </a>
@@ -102,22 +115,23 @@ export default function HomeExperience({
         <PatternRibbon /></>}
 
         <div className="content-wrap">
-          <section className="routes-section" id="routes"><div className="routes-inner">
+          <section className="routes-section" id="routes" style={routeStyle(activeRoute?.id ?? '', routes.findIndex(route => route.id === activeRoute?.id))}><div className="routes-inner">
             <div className="routes-heading">
               <span className="section-label">01 / TASTE ROUTES</span>
-              <h2>{site.routesSection.title}</h2>
-              <p>{site.routesSection.description}</p>{!detailMode && <a className="route-detail-link" href="/routes">미식루트 둘러보기 →</a>}
+              <h2>{detailMode ? site.routePage.sectionTitle : site.routesSection.title}</h2>
+              <p>{site.routesSection.description}</p>{!detailMode && <a className="route-detail-link" href="/routes">{site.routesSection.browseLabel} →</a>}
             </div>
 
             {routes.length > 0 ? (
               <>
                 <div className="tabs" role="tablist" aria-label="미식루트">
-                  {routes.map((route) => (
+                  {routes.map((route, index) => (
                     <button
                       aria-controls="route-panel"
                       aria-selected={activeRoute?.id === route.id}
                       className={activeRoute?.id === route.id ? 'active' : ''}
                       key={route.id}
+                      style={routeStyle(route.id, index)}
                       onClick={() => { setActiveRouteID(route.id); setSelectedMenu(''); setPage(1) }}
                       role="tab"
                       type="button"
@@ -133,13 +147,13 @@ export default function HomeExperience({
                       <span className="selected-route-label">{site.routesSection.selectedLabel}</span><h3>{activeRoute?.name}</h3>
                       <p>{activeRoute?.introduction || activeRoute?.description}</p>
                     </div>
-                    <MenuSelect key={activeRoute?.id} options={menuOptions} value={selectedMenu} onChange={value => { setSelectedMenu(value); setPage(1) }} />
+                    <MenuSelect key={activeRoute?.id} options={menuOptions} value={currentMenu} onChange={value => { setSelectedMenu(value); setPage(1) }} />
                   </div>
 
                   {showDemo && <div className="demo-store-notice"><p>{demoEnabled ? '디자인 확인용 예시 점포입니다. 실제 영업 정보가 아닙니다.' : '공개된 실제 점포를 표시하고 있습니다.'}</p><button type="button" onClick={() => { setDemoEnabled(!demoEnabled); setSelectedMenu(''); setPage(1) }}>{demoEnabled ? '실제 점포 보기' : '예시 점포 보기'}</button></div>}
                   <div className="result-meta">
                     <span>
-                      {site.routesSection.countLabel} <strong>{visibleStores.length}</strong>
+                      {demoEnabled ? '예시 점포' : site.routesSection.countLabel} <strong>{visibleStores.length}</strong>{site.routesSection.countSuffix}
                     </span>
                     <span>{site.routesSection.advisory}</span>
                   </div>
@@ -162,12 +176,12 @@ export default function HomeExperience({
                               <dd>{store.hours || site.routesSection.unconfirmedLabel}</dd>
                             </div>
                           </dl>
-                          <button className="store-detail-button" type="button" onClick={() => setSelectedStore(store)}>자세히 보기 <span aria-hidden="true">→</span></button>
+                          <button className="store-detail-button" type="button" onClick={() => setSelectedStore(store)}>{site.routesSection.detailLabel} <span aria-hidden="true">→</span></button>
                           </div>
                         </article>
                       ))
                     ) : (
-                      <div className="empty-result"><strong>{selectedMenu ? site.routesSection.emptyTitle : site.routesSection.preparingTitle}</strong><p>{selectedMenu ? site.routesSection.emptyMessage : site.routesSection.preparingDescription}</p>{selectedMenu && <button type="button" onClick={() => setSelectedMenu('')}>{site.routesSection.resetLabel}</button>}</div>
+                      <div className="empty-result"><strong>{site.routesSection.preparingTitle}</strong><p>{site.routesSection.preparingDescription}</p></div>
                     )}
                   </div>
                   <nav className="store-pagination" aria-label="점포 페이지"><button type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)} aria-label="이전 점포 페이지">← 이전</button><span><strong>{currentPage}</strong> / {totalPages}</span><button type="button" disabled={currentPage === totalPages} onClick={() => setPage(currentPage + 1)} aria-label="다음 점포 페이지">다음 →</button></nav>
@@ -195,12 +209,7 @@ export default function HomeExperience({
                 <br />
                 {site.festival.programHours}
               </p>
-              <small>{site.festival.note}</small><a className="festival-detail-link" href="/festival">행사 시간표 보기 →</a>
-              {poster && (
-                <a href={poster.url} rel="noreferrer" target="_blank">
-                  {site.festival.linkLabel} ↗
-                </a>
-              )}
+              <small>{site.festival.note}</small><a className="primary-button festival-detail-link" href="/festival">{site.festival.detailLabel} <span aria-hidden="true">↗</span></a>
             </div>
             {poster && (
               <a className="poster-link" href={poster.url} rel="noreferrer" target="_blank">
@@ -220,11 +229,7 @@ export default function HomeExperience({
           <SiteFooter site={site} />
         </div>
       </main>
-      <StoreModal store={selectedStore} routes={routes} onClose={() => setSelectedStore(null)} />
+      <StoreModal site={site} store={selectedStore ? sourceStores.find(store => store.id === selectedStore.id) ?? null : null} routes={routes} onClose={() => setSelectedStore(null)} />
     </div>
   )
 }
-
-
-
-

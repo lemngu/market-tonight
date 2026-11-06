@@ -1,5 +1,7 @@
 import { z } from 'zod'
 import { pageDefaults } from './page-defaults'
+import { recommendedHeroCopy } from './hero-copy'
+import { sectionCopy } from './section-copy'
 
 const text = z.string().max(4000)
 const short = z.string().trim().min(1).max(160)
@@ -9,18 +11,26 @@ export const mediaSchema = z.object({ url: imageUrl, alt: text, width: z.number(
 export const routeSchema = z.object({ id, name: short, description: text, introduction: text, advisory: text, isVisible: z.boolean() }).strict()
 export const storeSchema = z.object({ id, name: short, isVisible: z.boolean(), menu: text, menus: z.array(short).max(100).optional(), price: text, hours: text, image: mediaSchema, routeIds: z.array(id).max(100) }).strict()
 const color = z.string().regex(/^#[a-fA-F0-9]{6}$/)
-export const siteSchema = z.object({
-  brand: short, metaTitle: short, metaDescription: text, navRoutesLabel: text, navEventLabel: text,
-  hero: z.object({ eyebrow: text, titleLine1: text, titleLine2: text, description: text, ctaLabel: text, image: mediaSchema, caption: text, footLeft: text, footRight: text }).strict(),
-  routesSection: z.object({ title: text, description: text, selectedLabel: text, searchPlaceholder: text, countLabel: text, advisory: text, emptyTitle: text, emptyMessage: text, preparingTitle: text, preparingDescription: text, resetLabel: text, priceLabel: text, hoursLabel: text, unconfirmedLabel: text, menuUnconfirmedLabel: text, detailLabel: text }).strict(),
-  festival: z.object({ isVisible: z.boolean(), heading: text, name: text, highlights: text, date: text, schedule: text, location: text, programHours: text, note: text, linkLabel: text, poster: mediaSchema }).strict(),
-  routePage: z.object({eyebrow: text, title: text, description: text}).strict().default(pageDefaults.routePage),
-  festivalPage: z.object({eyebrow: text, title: text, description: text, date: text, schedule: text, location: text, timetableTitle: text, timetable: mediaSchema, programTitle: text, programs: z.array(z.object({time:text,title:text,place:text,color:z.enum(['yellow','blue','orange','olive']),description:text}).strict()).max(50), linkedTitle:text, linkedSchedule:text, linkedLocation:text, note:text}).strict().default(pageDefaults.festivalPage),
-  mapPage: z.object({eyebrow: text, title: text, description: text, image:mediaSchema, placeholderTitle:text, placeholderDescription:text}).strict().default(pageDefaults.mapPage),
+const currentSiteSchema = z.object({
+  menuTagline: text.default(sectionCopy.menuTagline), brand: short, metaTitle: short, metaDescription: text, navRoutesLabel: text, navEventLabel: text,
+  hero: z.object({ kicker: text.default(recommendedHeroCopy.kicker), brandTitle: text.default(recommendedHeroCopy.brandTitle), eventDate: text.default(recommendedHeroCopy.eventDate), eventLocation: text.default(recommendedHeroCopy.eventLocation), programLine: text.default(recommendedHeroCopy.programLine), eyebrow: text, titleLine1: text, titleLine2: text, description: text, ctaLabel: text, image: mediaSchema, caption: text, footLeft: text, footRight: text }).strict(),
+  routesSection: z.object({ browseLabel: text.default(sectionCopy.routesSection.browseLabel), countSuffix: text.default(sectionCopy.routesSection.countSuffix), title: text, description: text, selectedLabel: text, searchPlaceholder: text, countLabel: text, advisory: text, emptyTitle: text, emptyMessage: text, preparingTitle: text, preparingDescription: text, resetLabel: text, priceLabel: text, hoursLabel: text, unconfirmedLabel: text, menuUnconfirmedLabel: text, detailLabel: text }).strict(),
+  festival: z.object({ detailLabel: text.default(sectionCopy.festival.detailLabel), isVisible: z.boolean(), heading: text, name: text, highlights: text, date: text, schedule: text, location: text, programHours: text, note: text, linkLabel: text, poster: mediaSchema }).strict(),
+  routePage: z.object({sectionTitle: text.default(sectionCopy.routePage.sectionTitle), eyebrow: text, title: text, description: text}).strict().default(pageDefaults.routePage),
+  festivalPage: z.object({linkedEyebrow: text.default(sectionCopy.festivalPage.linkedEyebrow), linkedDescription: text.default(sectionCopy.festivalPage.linkedDescription), linkedNote: text.default(sectionCopy.festivalPage.linkedNote), eyebrow: text, title: text, description: text, date: text, schedule: text, location: text, timetableTitle: text, timetable: mediaSchema, programTitle: text, programs: z.array(z.object({time:text,title:text,place:text,color:z.enum(['yellow','blue','orange','olive']),description:text}).strict()).max(50), linkedTitle:text, linkedSchedule:text, linkedLocation:text, note:text}).strict().default(pageDefaults.festivalPage),
+  mapPage: z.object({preparingDescription: text.default(sectionCopy.mapPage.preparingDescription), routesDescription: text.default(sectionCopy.mapPage.routesDescription), eventDescription: text.default(sectionCopy.mapPage.eventDescription), routesLinkLabel: text.default(sectionCopy.mapPage.routesLinkLabel), eventLinkLabel: text.default(sectionCopy.mapPage.eventLinkLabel), eyebrow: text, title: text, description: text, image:mediaSchema, placeholderTitle:text, placeholderDescription:text}).strict().default(pageDefaults.mapPage),
   notice: text,
   footer: z.object({ headingLine1: text, headingLine2: text, tagline: text, organization: text, analyticsNote: text, adminLabel: text }).strict(),
   design: z.object({ navy: color, cream: color, white: color, blue: color, mutedBackground: color, yellow: color, fontSize: z.number().int().min(12).max(22), logoSeconds: z.number().int().min(10).max(90) }).strict(),
 }).strict()
+// Read old drafts without resurrecting the retired logo editor. Other fields stay strict.
+export const siteSchema = z.preprocess(value => {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    const { navigation: _retiredLogoSettings, ...site } = value as Record<string, unknown>
+    return site
+  }
+  return value
+}, currentSiteSchema)
 export const contentSchema = z.object({ site: siteSchema, routes: z.array(routeSchema).max(100), stores: z.array(storeSchema).max(2000) }).strict().superRefine((data, ctx) => {
   const ids = new Set(data.routes.map(r => r.id))
   if (ids.size !== data.routes.length || new Set(data.stores.map(s => s.id)).size !== data.stores.length) ctx.addIssue({ code: 'custom', message: '중복된 항목 ID가 있습니다.' })

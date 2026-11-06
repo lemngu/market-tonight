@@ -6,6 +6,8 @@ import { makeSiteSettings, sanitizeHtmlAttribute } from '@/lib/make-site-setting
 import './styles.css'
 import './responsive.css'
 import './detail-pages.css'
+import './hero-copy.css'
+import './section-copy.css'
 import { readContent } from '@/lib/content-store'
 
 const defaultTitle = '구월모래내 맛길 안내서'

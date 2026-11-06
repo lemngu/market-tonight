@@ -1,0 +1,92 @@
+/* Keep the longer festival copy readable at every breakpoint. */
+.site-shell .routes-heading h2, .site-shell .festival-copy h2 { line-height: 1.12; word-break: keep-all; overflow-wrap: break-word; }
+.site-shell.route-detail-shell .routes-heading { display: block; margin-bottom: 20px; }
+.site-shell.route-detail-shell .routes-heading .section-label, .site-shell.route-detail-shell .routes-heading > p { display: none; }
+.site-shell.route-detail-shell .routes-heading h2 { font-size: clamp(24px, 3vw, 34px); }
+.detail-page-heading h1, .detail-section-heading h2, .event-linked h2 { word-break: keep-all; overflow-wrap: break-word; }
+.detail-section-heading > div { min-width: 0; }
+.event-linked .event-linked-description { font-size: 17px; font-weight: 800; line-height: 1.7; }
+.event-linked .event-linked-note { margin-top: 20px; font-size: 12px; line-height: 1.8; opacity: .8; }
+.site-shell .festival-copy > .festival-detail-link { max-width: 100%; white-space: normal; }
+.site-shell .festival-copy > .festival-detail-link span { flex-shrink: 0; }
+.map-info-grid p { word-break: keep-all; overflow-wrap: break-word; }
+@media (max-width: 767px) {
+  .detail-section-heading { flex-wrap: wrap; align-items: flex-start; }
+  .detail-section-heading > div { flex: 1 1 240px; }
+  .site-shell footer h2 { line-height: 1.18; }
+  .event-linked .event-linked-description { font-size: 15px; }
+}
+
+/* Long Korean labels and secondary notes retain clear wrapping and contrast. */
+.site-shell .route-panel .result-meta > span:last-child { color: #fff; opacity: .85; }
+.map-placeholder-message h2 { font-size: clamp(22px, 5.8vw, 32px); line-height: 1.35; word-break: keep-all; overflow-wrap: break-word; }
+
+/* Fixed route identities: green, gold, lime, red and brown. */
+.site-shell #routes .tabs button,
+.site-shell #routes .tabs button.active,
+.site-shell #routes .tabs button:hover {
+  background: var(--route-color);
+  color: var(--route-ink);
+}
+.site-shell #routes .tabs button.active { box-shadow: none; }
+.site-shell #routes .tabs button:hover { filter: brightness(1.04); }
+.site-shell #routes .tabs button:focus-visible { outline: 0; box-shadow: inset 0 0 0 3px var(--route-ink); }
+.site-shell #routes .route-panel { background: var(--route-color); color: var(--route-ink); box-shadow: 7px 7px 0 var(--route-accent); }
+.site-shell #routes .route-panel .panel-head h3,
+.site-shell #routes .route-panel .panel-head p,
+.site-shell #routes .route-panel .selected-route-label,
+.site-shell #routes .route-panel .result-meta,
+.site-shell #routes .route-panel .result-meta > span:last-child,
+.site-shell #routes .route-panel .store-pagination,
+.site-shell #routes .route-panel .empty-result,
+.site-shell #routes .route-panel .demo-store-notice { color: var(--route-ink); }
+.site-shell #routes .route-panel .result-meta { border-color: color-mix(in srgb, var(--route-ink) 25%, transparent); }
+.site-shell #routes .route-panel .result-meta > span:last-child { opacity: 1; }
+.site-shell #routes .route-panel .demo-store-notice { background: #ffffff24; }
+.site-shell #routes .route-panel .store-pagination button,
+.site-shell #routes .route-panel .demo-store-notice button,
+.site-shell #routes .route-panel .empty-result button { background: var(--route-tint); color: var(--navy); }
+.site-shell #routes .route-panel .store-card,
+.site-shell #routes .route-panel .store-card:nth-child(even),
+.site-shell #routes .route-panel .store-card:hover { box-shadow: 4px 4px 0 var(--route-accent); }
+
+/* White route copy and readable themed store accents. */
+.site-shell #routes .tabs button,
+.site-shell #routes .route-panel .panel-head,
+.site-shell #routes .route-panel .selected-route-label { text-shadow: 0 1px 2px #0003; }
+.site-shell #routes .route-panel .store-card,
+.site-shell #routes .route-panel .store-card h3,
+.site-shell #routes .route-panel .store-card p,
+.site-shell #routes .route-panel .store-card dt,
+.site-shell #routes .route-panel .store-card dd,
+.site-shell #routes .route-panel .store-card .store-photo-placeholder { color: var(--route-strong); }
+.site-shell #routes .route-panel .store-card .store-detail-button,
+.site-shell #routes .route-panel .store-card .store-detail-button:hover,
+.site-shell #routes .route-panel .store-card .store-detail-button:focus-visible,
+.site-shell #routes .route-panel .store-pagination button,
+.site-shell #routes .route-panel .demo-store-notice button,
+.site-shell #routes .route-panel .empty-result button { background: var(--route-strong); color: #fff; }
+.site-shell #routes .route-panel .store-card .store-detail-button:focus-visible { outline: 2px solid var(--route-strong); outline-offset: 3px; }
+.site-shell #routes .route-panel .result-meta strong {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 34px;
+  min-height: 32px;
+  padding: 4px 10px;
+  margin-inline: 4px;
+  background: var(--route-strong);
+  color: #fff;
+  border: 2px solid var(--route-tint);
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* Inherit the selected theme through every nested menu, icon and store control. */
+.site-shell #routes .route-panel {
+  --blue: var(--route-strong);
+  --navy: var(--route-strong);
+}
+.site-shell #routes .route-panel .menu-select-trigger,
+.site-shell #routes .route-panel .menu-select-list { color: var(--route-strong); }
+.site-shell #routes .route-panel .demo-store-notice { border-color: color-mix(in srgb, var(--route-strong) 35%, transparent); }

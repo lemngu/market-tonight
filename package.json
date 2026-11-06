@@ -14,7 +14,8 @@
     "build:deploy": "pnpm build && node scripts/prepare-standalone.mjs",
     "start:deploy": "node scripts/start-production.mjs",
     "build:pages": "node scripts/export-pages.mjs",
-    "release:prepare": "node scripts/prepare-release.mjs"
+    "release:prepare": "node scripts/prepare-release.mjs",
+    "test:admin": "node --test scripts/admin-content.test.cjs"
   },
   "dependencies": {
     "@payloadcms/figma": "1.0.0-beta.1",
