@@ -41,7 +41,7 @@ export const sectionCopy = {
     eventDescription: '아트 플리마켓, 버스킹, DJ RAVE가 열리는 장소를 확인해 보세요.',
     routesLinkLabel: '내 취향의 미식루트 찾기', eventLinkLabel: '전체 프로그램 및 시간표 보기',
   },
-  footer: { headingLine1: '오늘의 만남이,', headingLine2: '내일의 단골로.', tagline: 'MARKET TONIGHT · 구월모래내시장' },
+  footer: { headingLine1: 'ABOUT US /', headingLine2: 'CONTACT', tagline: 'MARKET TONIGHT · 구월모래내시장' },
 } as const
 
 const routeIntroductions: Record<string, string> = {

@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import MenuSelect from './MenuSelect'
 import { createDemoStores } from '@/lib/demo-stores'
 import type { HomeMedia, HomeRoute, HomeStore } from '@/lib/home-data'
@@ -41,7 +41,17 @@ export default function HomeExperience({
   const sourceStores = useMemo(() => demoEnabled ? createDemoStores(routes) : stores, [demoEnabled, routes, stores])
   const [activeRouteID, setActiveRouteID] = useState(initialRouteID ?? routes[0]?.id ?? '')
   const [selectedMenu, setSelectedMenu] = useState('')
+  const tabsRef = useRef<HTMLDivElement>(null)
   const activeRoute = routes.find((route) => route.id === activeRouteID) ?? routes[0]
+  useEffect(() => {
+    const container = tabsRef.current
+    const selected = container?.querySelector<HTMLElement>('[aria-selected="true"]')
+    if (!container || !selected || container.scrollWidth <= container.clientWidth) return
+    const left = selected.offsetLeft
+    if (left < container.scrollLeft || left + selected.offsetWidth > container.scrollLeft + container.clientWidth) {
+      container.scrollTo({ left: Math.max(0, left - (container.clientWidth - selected.offsetWidth) / 2), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+    }
+  }, [activeRoute?.id])
   const routeStores = useMemo(() => sourceStores.filter(store => activeRoute && store.routeIds.includes(activeRoute.id)), [activeRoute, sourceStores])
   const menusForStore = (store: HomeStore) => store.menus?.length ? store.menus : (store.menu.trim() ? [store.menu.trim()] : [])
   const menuOptions = Array.from(new Set(routeStores.flatMap(menusForStore))).sort((a,b) => a.localeCompare(b,'ko'))
@@ -65,22 +75,17 @@ export default function HomeExperience({
           <div aria-hidden="true" className="hero-shape hero-shape-two" />
           <div className="hero-label">
             <span>KOREA GRAND FESTIVAL</span>
-            {site.hero.eyebrow}
           </div>
           <div className="hero-card">
             <div className="hero-copy">
-              <p className="hero-kicker">{site.hero.kicker}</p>
               <h1>
                 <span>{site.hero.titleLine1}</span>
                 <span>{site.hero.titleLine2}</span>
               </h1>
-              <p className="hero-brand-title">{site.hero.brandTitle}</p>
               <p className="hero-description">{site.hero.description}</p>
               <dl className="hero-event-info">
                 <div><dt className="sr-only">행사 일시</dt><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M7 2v6m10-6v6M3 11h18M7 15h2m3 0h2m3 0h1M7 18h2m3 0h2"/></svg><dd>{site.hero.eventDate}</dd></div>
-                <div><dt className="sr-only">행사 장소</dt><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><dd>{site.hero.eventLocation}</dd></div>
               </dl>
-              <p className="hero-program-line">{site.hero.programLine}</p>
               <a className="primary-button" href="#routes">
                 {site.hero.ctaLabel} <span aria-hidden="true">↘</span>
               </a>
@@ -124,7 +129,7 @@ export default function HomeExperience({
 
             {routes.length > 0 ? (
               <>
-                <div className="tabs" role="tablist" aria-label="미식루트">
+                <div ref={tabsRef} className="tabs" role="tablist" aria-label="미식루트">
                   {routes.map((route, index) => (
                     <button
                       aria-controls="route-panel"
@@ -176,7 +181,7 @@ export default function HomeExperience({
                               <dd>{store.hours || site.routesSection.unconfirmedLabel}</dd>
                             </div>
                           </dl>
-                          <button className="store-detail-button" type="button" onClick={() => setSelectedStore(store)}>{site.routesSection.detailLabel} <span aria-hidden="true">→</span></button>
+                          <button className="store-detail-button" type="button" aria-label={store.name + " " + site.routesSection.detailLabel} onClick={() => setSelectedStore(store)}><span className="store-detail-label">{site.routesSection.detailLabel}</span><span aria-hidden="true">→</span></button>
                           </div>
                         </article>
                       ))
@@ -193,6 +198,8 @@ export default function HomeExperience({
               </div>
             )}
           </div></section>
+
+          {!detailMode && site.festival.isVisible && <PatternRibbon reverse />}
 
           {!detailMode && site.festival.isVisible && <section className="festival" id="festival"><div className="festival-inner">
             <div className="festival-copy">

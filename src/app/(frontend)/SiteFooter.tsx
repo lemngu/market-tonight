@@ -16,7 +16,7 @@ export default function SiteFooter({site}:{site:SiteCopy}){return <>          <s
               <p>{site.footer.tagline}</p>
             </div>
             <div className="footer-info">
-              <span className="footer-card-label">LOCAL THEME COMMERCIAL DISTRICT</span>
+              <span className="footer-card-label">ABOUT US / CONTACT</span>
               <div className="footer-info-block">
                 <strong>운영</strong>
                 <p>{site.footer.organization}</p>
