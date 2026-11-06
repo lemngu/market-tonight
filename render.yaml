@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: market-tonight
+    runtime: node
+    plan: starter
+    numInstances: 1
+    buildCommand: pnpm install --frozen-lockfile && pnpm build:deploy
+    startCommand: pnpm start:deploy
+    healthCheckPath: /api/health
+    disk:
+      name: market-content
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24.22.1
+      - key: NODE_ENV
+        value: production
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: AUTH_TRUST_HOST
+        value: 'true'
+      - key: AUTH_GOOGLE_ID
+        sync: false
+      - key: AUTH_GOOGLE_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        value: lmg07142000@gmail.com
+      - key: MARKET_DATA_DIRECTORY
+        value: /var/data

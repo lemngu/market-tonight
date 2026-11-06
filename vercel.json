@@ -1,12 +1,37 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
-    { "source": "/market-tonight", "destination": "/index.html" },
-    { "source": "/market-tonight/", "destination": "/index.html" },
-    { "source": "/market-tonight/:page(routes|festival|map)", "destination": "/:page/index.html" },
-    { "source": "/market-tonight/:page(routes|festival|map)/", "destination": "/:page/index.html" },
-    { "source": "/market-tonight/routes/:route(budget|gluten-free|grill|vegan|winter)", "destination": "/routes/:route/index.html" },
-    { "source": "/market-tonight/routes/:route(budget|gluten-free|grill|vegan|winter)/", "destination": "/routes/:route/index.html" },
-    { "source": "/market-tonight/:path*", "destination": "/:path*" }
-  ]
+    {
+      "source": "/market-tonight",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/market-tonight/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/market-tonight/:page(routes|festival|map)",
+      "destination": "/:page/index.html"
+    },
+    {
+      "source": "/market-tonight/:page(routes|festival|map)/",
+      "destination": "/:page/index.html"
+    },
+    {
+      "source": "/market-tonight/routes/:route(budget|gluten-free|grill|vegan|winter)",
+      "destination": "/routes/:route/index.html"
+    },
+    {
+      "source": "/market-tonight/routes/:route(budget|gluten-free|grill|vegan|winter)/",
+      "destination": "/routes/:route/index.html"
+    },
+    {
+      "source": "/market-tonight/:path*",
+      "destination": "/:path*"
+    }
+  ],
+  "framework": null,
+  "buildCommand": "",
+  "installCommand": "",
+  "outputDirectory": "docs"
 }
