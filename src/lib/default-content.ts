@@ -12,7 +12,7 @@ const baseContent = {
     routesSection: { title: '다섯 가지 시장 산책.', description: '오늘 끌리는 맛을 골라보세요. 점포와 메뉴를 함께 살펴볼 수 있어요.', selectedLabel: '지금 펼친 맛길', searchPlaceholder: '점포명·대표 상품 검색', countLabel: '소개하는 점포', advisory: '가격·영업시간은 방문 전 점포에 확인해주세요.', emptyTitle: '검색 결과가 없어요', emptyMessage: '다른 검색어를 입력해보세요.', preparingTitle: '이 맛길의 점포를 확인하고 있어요.', preparingDescription: '메뉴와 운영 정보를 확인한 점포부터 소개할게요.', resetLabel: '검색 조건 초기화', priceLabel: '가격대', hoursLabel: '영업시간', unconfirmedLabel: '확인 중', menuUnconfirmedLabel: '대표 상품 확인 중', detailLabel: '자세히 보기' },
     festival: { isVisible: true, heading: '시장이 켜지는 금요일.', name: 'Market ToNight', highlights: '행사 프로그램을 준비 중입니다.', date: '2026.11.13.', schedule: '금요일 14:00–21:00', location: '인천 구월모래내시장 일대', programHours: '스쿨뮤직 프로그램 16:00–21:00', note: '세부 공연 시간표는 확정 후 안내합니다.', linkLabel: '행사 포스터 보기', poster: null },
     notice: '메뉴·가격·영업시간은 변경될 수 있습니다. 방문 전 점포에 확인해주세요.',
-    footer: { headingLine1: 'ABOUT US /', headingLine2: 'CONTACT', tagline: '구월모래내시장 · 취향 따라 맛길', organization: '구월모래내시장 로컬테마 상권기획자', analyticsNote: '방문 전 점포의 운영 정보를 확인해주세요.', adminLabel: '관리자 작업실' },
+    footer: { headingLine1: '취향 따라 걷고,', headingLine2: '미식을 발견해요', tagline: '구월모래내시장 · 취향 따라 맛길', organization: '구월모래내시장 로컬테마 상권기획자', analyticsNote: '방문 전 점포의 운영 정보를 확인해주세요.', adminLabel: '관리자 작업실' },
     design: { navy: '#1c376b', cream: '#fff5de', white: '#fffcf3', blue: '#2877b4', mutedBackground: '#eae3d3', yellow: '#f4bf22', fontSize: 16, logoSeconds: 28 },
   },
   routes: [

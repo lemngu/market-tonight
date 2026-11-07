@@ -24,7 +24,6 @@ export default function HomeExperience({
   site,
   routes,
   stores,
-  showDemo = false,
   detailMode = false,
   initialRouteID,
 }: {
@@ -36,9 +35,8 @@ export default function HomeExperience({
   initialRouteID?: string
 }) {
   const [selectedStore, setSelectedStore] = useState<HomeStore | null>(null)
-  const [demoEnabled, setDemoEnabled] = useState(showDemo && stores.length === 0)
   const [page, setPage] = useState(1)
-  const sourceStores = useMemo(() => demoEnabled ? createDemoStores(routes) : stores, [demoEnabled, routes, stores])
+  const sourceStores = useMemo(() => stores.length === 0 ? createDemoStores(routes) : stores, [routes, stores])
   const [activeRouteID, setActiveRouteID] = useState(initialRouteID ?? routes[0]?.id ?? '')
   const [selectedMenu, setSelectedMenu] = useState('')
   const tabsRef = useRef<HTMLDivElement>(null)
@@ -58,7 +56,14 @@ export default function HomeExperience({
   const currentMenu = menuOptions.includes(selectedMenu) ? selectedMenu : ''
   const visibleStores = routeStores.filter(store => !currentMenu || menusForStore(store).includes(currentMenu))
 
-  const pageSize = 6
+  const [pageSize, setPageSize] = useState(8)
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 767px)')
+    const updatePageSize = () => { setPageSize(mobile.matches ? 4 : 8); setPage(1) }
+    updatePageSize()
+    mobile.addEventListener('change', updatePageSize)
+    return () => mobile.removeEventListener('change', updatePageSize)
+  }, [])
   const totalPages = Math.max(1, Math.ceil(visibleStores.length / pageSize))
   const currentPage = Math.min(page, totalPages)
   const pagedStores = visibleStores.slice((currentPage - 1) * pageSize, currentPage * pageSize)
@@ -124,7 +129,6 @@ export default function HomeExperience({
             <div className="routes-heading">
               <span className="section-label">01 / TASTE ROUTES</span>
               <h2>{detailMode ? site.routePage.sectionTitle : site.routesSection.title}</h2>
-              <p>{site.routesSection.description}</p>{!detailMode && <a className="route-detail-link" href="/routes">{site.routesSection.browseLabel} →</a>}
             </div>
 
             {routes.length > 0 ? (
@@ -149,35 +153,27 @@ export default function HomeExperience({
                 <div className="route-panel" id="route-panel" role="tabpanel">
                   <div className="panel-head">
                     <div>
-                      <span className="selected-route-label">{site.routesSection.selectedLabel}</span><h3>{activeRoute?.name}</h3>
+                      <h3>{activeRoute?.name}</h3>
                       <p>{activeRoute?.introduction || activeRoute?.description}</p>
                     </div>
                     <MenuSelect key={activeRoute?.id} options={menuOptions} value={currentMenu} onChange={value => { setSelectedMenu(value); setPage(1) }} />
                   </div>
 
-                  {showDemo && <div className="demo-store-notice"><p>{demoEnabled ? '디자인 확인용 예시 점포입니다. 실제 영업 정보가 아닙니다.' : '공개된 실제 점포를 표시하고 있습니다.'}</p><button type="button" onClick={() => { setDemoEnabled(!demoEnabled); setSelectedMenu(''); setPage(1) }}>{demoEnabled ? '실제 점포 보기' : '예시 점포 보기'}</button></div>}
-                  <div className="result-meta">
-                    <span>
-                      {demoEnabled ? '예시 점포' : site.routesSection.countLabel} <strong>{visibleStores.length}</strong>{site.routesSection.countSuffix}
-                    </span>
-                    <span>{site.routesSection.advisory}</span>
-                  </div>
 
                   <div className="store-grid">
                     {visibleStores.length > 0 ? (
                       pagedStores.map((store) => (
                         <article className="store-card" key={store.id}>
-                          <div className="store-photo-wrap">{store.image ? <Image unoptimized alt={store.image.alt || store.name + ' 점포 사진'} className="store-photo" src={store.image.url} width={store.image.width} height={store.image.height} sizes="(max-width:767px) 100px, 120px" /> : <div className="store-photo-placeholder" aria-label="사진 준비 중"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 20v21h32V20M5 20l5-12h28l5 12M5 20c0 6 9 6 9 0 0 6 10 6 10 0 0 6 10 6 10 0 0 6 9 6 9 0M19 41V29h10v12" stroke="currentColor" strokeWidth="2" /></svg><span>사진 준비 중</span></div>}</div>
                           <div className="store-card-content">
                           <h3>{store.name}</h3>
-                          <p className="menu-name">{store.menu || site.routesSection.menuUnconfirmedLabel}</p>
                           <dl>
+                            <div><dt><span className="sr-only">메뉴</span><svg className="store-meta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M5 3v6m3-6v6M3 3v6c0 2 7 2 7 0V3M6.5 11v10M20 3c-4 3-5 7-5 10h5m0-10v18"/></svg></dt><dd className="store-menu-value">{store.menu || site.routesSection.menuUnconfirmedLabel}</dd></div>
                             <div>
-                              <dt>{site.routesSection.priceLabel}</dt>
-                              <dd>{store.price || site.routesSection.unconfirmedLabel}</dd>
+                              <dt><span className="sr-only">{site.routesSection.priceLabel}</span><span aria-hidden="true" className="store-meta-icon">₩</span></dt>
+                              <dd className="store-price-value">{(store.id.startsWith('demo-') ? store.price.replace(/^예시\s*/, '') : store.price) || site.routesSection.unconfirmedLabel}</dd>
                             </div>
                             <div>
-                              <dt>{site.routesSection.hoursLabel}</dt>
+                              <dt><span className="sr-only">{site.routesSection.hoursLabel}</span><svg className="store-meta-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></dt>
                               <dd>{store.hours || site.routesSection.unconfirmedLabel}</dd>
                             </div>
                           </dl>
@@ -236,7 +232,7 @@ export default function HomeExperience({
           <SiteFooter site={site} />
         </div>
       </main>
-      <StoreModal site={site} store={selectedStore ? sourceStores.find(store => store.id === selectedStore.id) ?? null : null} routes={routes} onClose={() => setSelectedStore(null)} />
+      <StoreModal themeID={activeRoute?.id} site={site} store={selectedStore ? sourceStores.find(store => store.id === selectedStore.id) ?? null : null} routes={routes} onClose={() => setSelectedStore(null)} />
     </div>
   )
 }

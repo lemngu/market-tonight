@@ -146,6 +146,6 @@ test('non-hero copy refresh preserves hero, images, relationships and current ti
   assert.deepEqual(next.site.festivalPage.programs.map(program => [program.time, program.place, program.color]), content.site.festivalPage.programs.map(program => [program.time, program.place, program.color]))
   assert.deepEqual([next.site.festival.poster, next.site.festivalPage.timetable, next.site.mapPage.image], [image, image, image])
   assert.equal(next.site.routesSection.browseLabel, '내 취향의 미식루트 찾기')
-  assert.equal(next.site.footer.headingLine1, 'ABOUT US /')
+  assert.equal(next.site.footer.headingLine1, '취향 따라 걷고,')
   assert.deepEqual(applySectionCopy(next), next)
 })

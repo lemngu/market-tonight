@@ -6,7 +6,7 @@ export const sectionCopy = {
   metaDescription: '음악과 예술, 먹거리와 사람이 어우러지는 특별한 금요일. 2026년 11월 13일, 구월모래내시장에서 MARKET TONIGHT를 만나보세요.',
   routesSection: {
     title: '취향 따라, 미식루트',
-    description: '만 원의 든든한 한 끼부터 겨울 간식까지. 구월모래내 두 시장의 맛을 따라 걸어보세요.',
+    description: '나만의 미식루트를 걸어보아요!',
     browseLabel: '내 취향의 미식루트 찾기', selectedLabel: '지금 선택한 미식루트',
     countLabel: '참여 점포', countSuffix: '곳',
     preparingTitle: '맛길에 어울리는 점포를 준비하고 있어요.',
@@ -41,15 +41,15 @@ export const sectionCopy = {
     eventDescription: '아트 플리마켓, 버스킹, DJ RAVE가 열리는 장소를 확인해 보세요.',
     routesLinkLabel: '내 취향의 미식루트 찾기', eventLinkLabel: '전체 프로그램 및 시간표 보기',
   },
-  footer: { headingLine1: 'ABOUT US /', headingLine2: 'CONTACT', tagline: 'MARKET TONIGHT · 구월모래내시장' },
+  footer: { headingLine1: '취향 따라 걷고,', headingLine2: '미식을 발견해요', tagline: 'MARKET TONIGHT · 구월모래내시장' },
 } as const
 
 const routeIntroductions: Record<string, string> = {
-  budget: '만원 한 장으로 즐기는 든든한 행복! 부담 없이 즐기는 1만 원 이하 가성비 맛집 코스.',
-  'gluten-free': '쌀과 메밀 등 다양한 재료의 맛을 찾아보는 글루텐 프리 테마 코스. 메뉴의 재료·소스·조리환경은 방문 전 점포에 확인해주세요.',
-  grill: '지글지글 불 위에서 완성되는 맛! 구월모래내시장의 대표 불맛을 찾아 떠나는 산책.',
-  vegan: '시장 골목에서 발견하는 식물성 먹거리! 취향과 가성비를 함께 생각하는 비건 탐방. 메뉴의 재료·양념은 점포에 확인해주세요.',
-  winter: '쌀쌀한 계절, 손끝까지 따뜻하게. 시장에서 만나는 달콤하고 따끈한 겨울 간식.',
+  budget: "만원 한 장으로 즐기는 든든한 행복!\n부담 없이 즐기는 가성비 맛집 코스",
+  'gluten-free': "저탄고지 애호가는 여기 모여라!\n글루텐을 배제한 미식 테마 코스",
+  grill: "지글지글 불 위에서 완성되는 맛!\n시장의 대표 불맛을 찾아 떠나는 산책",
+  vegan: "시장에서 발견하는 비건 식당!\n취향과 건강을 함께 생각하는 비건 탐방",
+  winter: "쌀쌀한 계절, 손끝까지 따뜻하게!\n시장 안에 달달하고 따끈한 겨울 간식",
 }
 
 export function updateProgramCopy(program: { time: string; title: string; place: string; color: 'yellow' | 'blue' | 'orange' | 'olive'; description: string }) {
