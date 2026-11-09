@@ -8,7 +8,7 @@ import { createDemoStores } from '@/lib/demo-stores'
 import type { HomeMedia, HomeRoute, HomeStore } from '@/lib/home-data'
 
 import type { CSSProperties } from 'react'
-import type { SiteCopy } from '@/lib/content-schema'
+import { storeSchema, type SiteCopy } from '@/lib/content-schema'
 import SiteHeader from './SiteHeader'
 import SiteFooter from './SiteFooter'
 import PatternRibbon from './PatternRibbon'
@@ -26,6 +26,7 @@ export default function HomeExperience({
   stores,
   detailMode = false,
   initialRouteID,
+  publicFeed = false,
 }: {
   site: SiteCopy
   routes: HomeRoute[]
@@ -33,10 +34,46 @@ export default function HomeExperience({
   showDemo?: boolean
   detailMode?: boolean
   initialRouteID?: string
+  publicFeed?: boolean
 }) {
   const [selectedStore, setSelectedStore] = useState<HomeStore | null>(null)
   const [page, setPage] = useState(1)
-  const sourceStores = useMemo(() => stores.length === 0 ? createDemoStores(routes) : stores, [routes, stores])
+  const feedPath = publicFeed ? process.env.NEXT_PUBLIC_STORE_FEED_PATH : undefined
+  const [sheetStores, setSheetStores] = useState<HomeStore[] | null>(null)
+  useEffect(() => {
+    if (!feedPath) return
+    const controller = new AbortController()
+    let loading = false
+    const refresh = async () => {
+      if (loading || document.hidden) return
+      loading = true
+      try {
+        const response = await fetch(feedPath, { signal: controller.signal })
+        if (!response.ok) return
+        const data = await response.json()
+        const parsed = storeSchema.array().max(2000).safeParse(data.stores)
+        if (parsed.success && !controller.signal.aborted) {
+          setSheetStores(parsed.data.filter(store => store.isVisible))
+        }
+      } catch {
+        // Keep the latest successful list during a temporary connection issue.
+      } finally {
+        loading = false
+      }
+    }
+    void refresh()
+    const timer = window.setInterval(refresh, 30_000)
+    document.addEventListener('visibilitychange', refresh)
+    return () => {
+      controller.abort()
+      window.clearInterval(timer)
+      document.removeEventListener('visibilitychange', refresh)
+    }
+  }, [feedPath])
+  const sourceStores = useMemo(() => {
+    if (feedPath) return sheetStores ?? stores
+    return stores.length === 0 ? createDemoStores(routes) : stores
+  }, [feedPath, sheetStores, routes, stores])
   const [activeRouteID, setActiveRouteID] = useState(initialRouteID ?? routes[0]?.id ?? '')
   const [selectedMenu, setSelectedMenu] = useState('')
   const tabsRef = useRef<HTMLDivElement>(null)
