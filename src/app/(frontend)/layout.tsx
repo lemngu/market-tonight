@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import { BodyCustomCode, renderHeadCustomCode } from '@/lib/make-custom-code'
 import { makeSiteSettings, sanitizeHtmlAttribute } from '@/lib/make-site-settings'
@@ -19,6 +19,8 @@ const description =
 const favicon = makeSiteSettings.icons?.icon
 const socialImage = makeSiteSettings.openGraph?.image
 const googleAnalyticsId = sanitizeHtmlAttribute(makeSiteSettings.analytics?.googleAnalyticsId)
+
+export const viewport: Viewport = { colorScheme: 'only light' }
 
 export async function generateMetadata(): Promise<Metadata> {
   const { published: { site } } = await readContent()

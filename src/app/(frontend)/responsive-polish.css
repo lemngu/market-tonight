@@ -237,9 +237,9 @@
  .site-shell #routes .store-card { padding: 10px 8px; }
  .site-shell #routes .store-card-content dl div { gap: 3px; }
 }
-/* Snap gently to section starts while allowing tall mobile content to scroll. */
-html:has(.hero-editorial) { scroll-snap-type: y proximity; scroll-padding-top: 96px; }
-.hero-editorial, .site-shell:has(.hero-editorial) #routes, .site-shell:has(.hero-editorial) #festival, .site-shell:has(.hero-editorial) footer { scroll-snap-align: start; scroll-margin-top: 0; }
+/* Offset section links below the fixed navigation. */
+html:has(.hero-editorial) { scroll-padding-top: 96px; }
+.hero-editorial, .site-shell:has(.hero-editorial) #routes, .site-shell:has(.hero-editorial) #festival, .site-shell:has(.hero-editorial) footer { scroll-margin-top: 0; }
 @media(min-width:1200px) and (min-height:700px) {
  .site-shell:has(.hero-editorial) #routes { height: calc(100svh - var(--nav-height)); min-height: 600px; padding-block: 24px; }
  .site-shell:has(.hero-editorial) .routes-inner { display: flex; flex-direction: column; height: 100%; min-height: 0; }
@@ -265,7 +265,6 @@ html:has(.hero-editorial) { scroll-snap-type: y proximity; scroll-padding-top: 9
 }
 @media(min-width:768px) and (max-width:1199px) { html:has(.hero-editorial) { scroll-padding-top: 88px; } }
 @media(max-width:767px) { html:has(.hero-editorial) { scroll-padding-top: 76px; } }
-@media(prefers-reduced-motion:reduce) { html:has(.hero-editorial) { scroll-snap-type: none; } }
 @media(min-width:1200px) and (min-height:700px) {
  .hero.hero-editorial .hero-card { padding-top: 64px; padding-bottom: 48px; }
  .hero.hero-editorial .hero-figure { max-width: min(490px,calc(100svh - 360px)); }
