@@ -221,6 +221,9 @@
 .public-store-modal .public-store-copy dd { color: #30343b; }
 .public-store-modal .public-store-themes span { background: var(--route-strong); color: #fff; border-radius: 0; }
 .public-store-modal .public-store-image { background: color-mix(in srgb,var(--route-color) 12%,var(--route-tint)); color: var(--route-strong); }
+.public-store-modal .public-store-image { position: relative; }
+.public-store-modal .public-store-image .public-store-photo-placeholder { position: absolute; inset: 0; padding: 12px; text-align: center; }
+.public-store-modal .public-store-image img { position: absolute; inset: 0; }
 .public-store-modal .public-store-note { color: #626873; }
 .public-store-modal .public-store-modal-foot .store-detail-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 16px; border: 0; border-radius: 0; padding: 10px 22px; background: var(--route-strong); color: #fff; font-size: 11px; min-height: 40px; clip-path: polygon(8% 0,100% 0,92% 100%,0 100%); }
 .public-store-modal .store-detail-button:focus-visible { outline: 2px solid var(--route-color); outline-offset: 3px; }

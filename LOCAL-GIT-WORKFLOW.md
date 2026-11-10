@@ -12,6 +12,14 @@ VS Code에서 이 폴더를 열고 터미널에서 pnpm.cmd dev를 실행합니�
 로컬 관리자의 고객페이지 반영 버튼을 누르면 로컬 공개본이 갱신됩니다. pnpm.cmd release:prepare 를 실행하면 그 공개본과 최신 코드로 docs를 다시 생성합니다. 이 명령은 push하지 않습니다.
 원격 docs와 로컬 소스의 diff를 검토하고, pnpm.cmd build가 성공하는지 확인합니다.
 
+## GA4 연결
+
+GA4 웹 데이터 스트림의 측정 ID가 준비되면 `NEXT_PUBLIC_GA4_MEASUREMENT_ID`에 `G-`로 시작하는 값을 설정합니다. 값이 없으면 분석 태그를 로드하지 않습니다.
+
+- 로컬 개발 서버에서는 `.env.local`에 추가하고 서버를 다시 시작합니다.
+- 운영용 정적 파일은 PowerShell에서 `$env:NEXT_PUBLIC_GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'`를 설정한 뒤 `pnpm.cmd release:prepare`로 다시 생성해 배포합니다. ID는 빌드 시 반영됩니다.
+- 주요 이벤트는 `site_nav_click`, `taste_route_select`, `route_menu_select`, `store_detail_open`, `store_detail_close`, `festival_schedule_click`입니다. GA4 실시간 보고서에서 이벤트 이름을 확인할 수 있습니다.
+
 ## GitHub에 반영 (이 단계에서 운영 배포 시작)
 git fetch origin
 git status

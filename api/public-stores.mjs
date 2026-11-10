@@ -1,41 +1,44 @@
+import { createHash } from 'node:crypto';
+
 const MAX_PHOTO_BYTES = 4 * 1024 * 1024;
 const ID = /^[a-zA-Z0-9_-]{1,100}$/;
+
+const FEED_TTL_MS = 10_000;
+const PHOTO_TTL_SECONDS = 30;
+let feedCache;
 
 export async function GET(request) {
   const source = process.env.MARKET_STORES_WEB_APP_URL || 'https://script.google.com/macros/s/AKfycbySQN7Em1ys1DDUVGXiXVsSMWf2v9M2CbMa_lbtpQM1zvx3sm8l7fVCShzB_iwUyqRv/exec';
   if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(source)) return unavailable();
 
   try {
-    const result = await fetch(source, { signal: AbortSignal.timeout(8000) });
-    if (!result.ok) return unavailable();
-    const data = await result.json();
-    if (!Array.isArray(data.stores) || data.stores.length > 2000) return unavailable();
+    const query = request ? new URL(request.url).searchParams : new URLSearchParams();
+    const photoId = query.get('photo');
+    const version = query.get('v');
+    if (photoId !== null && (!ID.test(photoId) || (version !== null && !/^[a-f0-9]{24}$/.test(version)))) return missingPhoto();
 
-    const published = data.stores.filter(store => store?.isVisible === true && typeof store.id === 'string' && ID.test(store.id));
-    const photoId = request && new URL(request.url).searchParams.get('photo');
-    if (photoId !== null && photoId !== undefined) {
+    const published = await readPublishedStores(source);
+    if (photoId !== null) {
       const store = published.find(store => store.id === photoId);
-      const link = driveDownloadUrl(store?.photoLink);
-      return link ? servePhoto(link) : missingPhoto();
+      const photo = publicPhoto(store?.photoLink);
+      if (!photo || (version !== null && version !== photo.version)) return missingPhoto();
+      return servePhoto(photo.download, version !== null);
     }
 
-    const stores = published.map(store => ({
-      id: store.id,
-      name: store.name,
-      menu: store.menu,
-      menus: store.menus,
-      price: store.price,
-      hours: store.hours,
-      location: store.location,
-      routeIds: store.routeIds,
-      isVisible: true,
-      image: driveDownloadUrl(store.photoLink) ? {
-        url: '/api/public-stores?photo=' + store.id,
-        alt: store.name + ' 점포 사진',
-        width: 800,
-        height: 800,
-      } : null,
-    }));
+    const stores = published.map(store => {
+      const photo = publicPhoto(store.photoLink);
+      return {
+        id: store.id, name: store.name, menu: store.menu, menus: store.menus,
+        price: store.price, hours: store.hours, location: store.location, routeIds: store.routeIds,
+        isVisible: true,
+        image: photo ? {
+          url: '/api/public-stores?photo=' + store.id + '&v=' + photo.version,
+          alt: store.name + ' 점포 사진',
+          width: 800,
+          height: 800,
+        } : null,
+      };
+    });
 
     return Response.json({ stores }, { headers: cacheHeaders() });
   } catch {
@@ -43,7 +46,29 @@ export async function GET(request) {
   }
 }
 
-function driveDownloadUrl(value) {
+async function readPublishedStores(source) {
+  if (feedCache?.source === source && (feedCache.pending || Date.now() < feedCache.expiresAt)) return feedCache.pending || feedCache.stores;
+
+  const entry = { source, pending: fetchPublishedStores(source) };
+  feedCache = entry;
+  try {
+    entry.stores = await entry.pending;
+    entry.expiresAt = Date.now() + FEED_TTL_MS;
+    return entry.stores;
+  } finally {
+    entry.pending = null;
+  }
+}
+
+async function fetchPublishedStores(source) {
+  const result = await fetch(source, { signal: AbortSignal.timeout(8000) });
+  if (!result.ok) throw new Error('Store feed unavailable');
+  const { stores } = await result.json();
+  if (!Array.isArray(stores) || stores.length > 2000) throw new Error('Invalid store feed');
+  return stores.filter(store => store?.isVisible === true && typeof store.id === 'string' && ID.test(store.id));
+}
+
+function publicPhoto(value) {
   if (typeof value !== 'string' || !value.startsWith('https://drive.google.com/')) return null;
   let source;
   try { source = new URL(value); } catch { return null; }
@@ -55,10 +80,11 @@ function driveDownloadUrl(value) {
   download.searchParams.set('export', 'download');
   const key = source.searchParams.get('resourcekey');
   if (key && /^[A-Za-z0-9_-]{1,100}$/.test(key)) download.searchParams.set('resourcekey', key);
-  return download;
+  const version = createHash('sha256').update(download.href).digest('hex').slice(0, 24);
+  return { download, version };
 }
 
-async function servePhoto(url) {
+async function servePhoto(url, versioned) {
   const signal = AbortSignal.timeout(5000);
   try {
     for (let hop = 0; hop < 3; hop++) {
@@ -93,7 +119,7 @@ async function servePhoto(url) {
         : type === 'image/png' ? bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
         : bytes.toString('ascii', 0, 4) === 'RIFF' && bytes.toString('ascii', 8, 12) === 'WEBP';
       if (!valid) return missingPhoto();
-      return new Response(bytes, { headers: { ...cacheHeaders(), 'Content-Type': type, 'X-Content-Type-Options': 'nosniff' } });
+      return new Response(bytes, { headers: { ...cacheHeaders(versioned), 'Content-Type': type, 'X-Content-Type-Options': 'nosniff' } });
     }
   } catch {
     // Unshared, deleted or temporarily unavailable Drive files use the modal placeholder.
@@ -101,8 +127,11 @@ async function servePhoto(url) {
   return missingPhoto();
 }
 
-function cacheHeaders() {
-  return { 'Cache-Control': 'public, max-age=0', 'Vercel-CDN-Cache-Control': 'max-age=15' };
+function cacheHeaders(versioned = false) {
+  return {
+    'Cache-Control': versioned ? 'public, max-age=15' : 'public, max-age=0',
+    'Vercel-CDN-Cache-Control': 'max-age=' + (versioned ? PHOTO_TTL_SECONDS : 15),
+  };
 }
 
 function missingPhoto() {

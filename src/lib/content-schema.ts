@@ -9,7 +9,7 @@ const id = z.string().regex(/^[a-zA-Z0-9_-]{1,100}$/)
 const imageUrl = z.string().max(2000).refine(v => /^\/api\/uploads\/[a-f0-9-]+\.webp$/.test(v) || /^\/assets\/[a-zA-Z0-9_./%-]+$/.test(v), '업로드한 이미지 또는 assets 경로를 사용해주세요.')
 export const mediaSchema = z.object({ url: imageUrl, alt: text, width: z.number().int().positive().max(20000), height: z.number().int().positive().max(20000) }).strict().nullable()
 export const routeSchema = z.object({ id, name: short, description: text, introduction: text, advisory: text, isVisible: z.boolean() }).strict()
-export const storeSchema = z.object({ id, name: short, isVisible: z.boolean(), menu: text, menus: z.array(short).max(100).optional(), price: text, hours: text, location: text.optional(), image: mediaSchema.or(mediaSchema.unwrap().extend({ url: z.string().regex(/^\/api\/public-stores\?photo=[a-zA-Z0-9_-]{1,100}$/) })), routeIds: z.array(id).max(100) }).strict()
+export const storeSchema = z.object({ id, name: short, isVisible: z.boolean(), menu: text, menus: z.array(short).max(100).optional(), price: text, hours: text, location: text.optional(), image: mediaSchema.or(mediaSchema.unwrap().extend({ url: z.string().regex(/^\/api\/public-stores\?photo=[a-zA-Z0-9_-]{1,100}(?:&v=[a-f0-9]{24})?$/) })), routeIds: z.array(id).max(100) }).strict()
 const color = z.string().regex(/^#[a-fA-F0-9]{6}$/)
 const currentSiteSchema = z.object({
   menuTagline: text.default(sectionCopy.menuTagline), brand: short, metaTitle: short, metaDescription: text, navRoutesLabel: text, navEventLabel: text,

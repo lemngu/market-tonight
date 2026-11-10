@@ -18,7 +18,8 @@ const description =
   '두 시장, 다섯 가지 취향. 인천 구월모래내시장의 맛길을 만나보세요.'
 const favicon = makeSiteSettings.icons?.icon
 const socialImage = makeSiteSettings.openGraph?.image
-const googleAnalyticsId = sanitizeHtmlAttribute(makeSiteSettings.analytics?.googleAnalyticsId)
+const analyticsSetting = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID?.trim() || makeSiteSettings.analytics?.googleAnalyticsId
+const googleAnalyticsId = analyticsSetting && /^G-[A-Z0-9]+$/.test(analyticsSetting) ? analyticsSetting : undefined
 
 export const viewport: Viewport = { colorScheme: 'only light' }
 
@@ -49,20 +50,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </div>
         {googleAnalyticsId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="figma-google-analytics" strategy="afterInteractive">
-              {`
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', ${JSON.stringify(googleAnalyticsId)});
+          <Script id="market-google-analytics" strategy="afterInteractive">
+            {`
+(() => {
+  if (/(^|\\/)admin(\\/|$)/.test(location.pathname)) return;
+
+  const measurementId = ${JSON.stringify(googleAnalyticsId)};
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', measurementId);
+
+  const tag = document.createElement('script');
+  tag.async = true;
+  tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+  document.head.append(tag);
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    const action = event.target.closest('[data-ga-event]');
+    if (!action || action.closest(':disabled')) return;
+    const item = action.getAttribute('data-ga-item');
+    window.gtag('event', action.getAttribute('data-ga-event'), item ? { item_id: item } : {});
+  }, true);
+})();
 `}
-            </Script>
-          </>
+          </Script>
         )}
         <BodyCustomCode html={customScripts?.bodyEnd} />
       </body>

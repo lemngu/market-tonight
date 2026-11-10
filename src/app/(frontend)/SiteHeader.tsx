@@ -42,10 +42,10 @@ export default function SiteHeader({ site }: { site: SiteCopy }) {
           <Image unoptimized priority className="market-logo logo-layer logo-layer-light" src="/assets/navigation/Market-Tonight_logo_white.svg" alt="" aria-hidden="true" width={99} height={37} />
         </span>
       </a>
-      <button ref={button} type="button" className={'menu-trigger fixed-menu-toggle' + (open ? ' is-open' : '')} aria-controls="site-menu" aria-expanded={open} aria-label={open ? '전체 메뉴 닫기' : '전체 메뉴 열기'} onClick={() => { locate(); setOpen(!open) }}><span /><span /><span /></button>
+      <button ref={button} type="button" className={'menu-trigger fixed-menu-toggle' + (open ? ' is-open' : '')} aria-controls="site-menu" aria-expanded={open} data-ga-event={open ? "site_menu_close" : "site_menu_open"} aria-label={open ? '전체 메뉴 닫기' : '전체 메뉴 열기'} onClick={() => { locate(); setOpen(!open) }}><span /><span /><span /></button>
     </div></header>
     <div ref={overlay} id="site-menu" className={'radial-menu' + (open ? ' is-open' : '')} role="dialog" aria-modal={open ? true : undefined} aria-label="전체 메뉴" aria-hidden={!open} inert={!open} style={{ '--menu-inset': menuInset, '--menu-x': origin.x, '--menu-y': origin.y } as CSSProperties}>
-      <div className="radial-menu-content"><p>GUWOL MORAENAE / MARKET TONIGHT</p><nav aria-label="전체 메뉴 항목">{[['/', '홈', 'HOME'], ['/routes', site.navRoutesLabel, 'TASTE ROUTES'], ['/festival', site.navEventLabel, 'FESTIVAL'], ['/map', '지도', 'MARKET MAP']].map(([href,title,english],index) => <a key={href} href={href} onClick={() => setOpen(false)}><span>{String(index + 1).padStart(2,'0')}</span><strong>{title}</strong><small>{english} ↗</small></a>)}</nav><p>{site.menuTagline}</p></div>
+      <div className="radial-menu-content"><p>GUWOL MORAENAE / MARKET TONIGHT</p><nav aria-label="전체 메뉴 항목">{[['/', '홈', 'HOME'], ['/routes', site.navRoutesLabel, 'TASTE ROUTES'], ['/festival', site.navEventLabel, 'FESTIVAL'], ['/map', '지도', 'MARKET MAP']].map(([href,title,english],index) => <a key={href} href={href} data-ga-event="site_nav_click" data-ga-item={english} onClick={() => setOpen(false)}><span>{String(index + 1).padStart(2,'0')}</span><strong>{title}</strong><small>{english} ↗</small></a>)}</nav><p>{site.menuTagline}</p></div>
     </div>
   </>
 }

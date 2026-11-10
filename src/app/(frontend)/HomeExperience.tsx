@@ -128,7 +128,7 @@ export default function HomeExperience({
               <dl className="hero-event-info">
                 <div><dt className="sr-only">행사 일시</dt><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M7 2v6m10-6v6M3 11h18M7 15h2m3 0h2m3 0h1M7 18h2m3 0h2"/></svg><dd>{site.hero.eventDate}</dd></div>
               </dl>
-              <a className="primary-button" href="#routes">
+              <a className="primary-button" href="#routes" data-ga-event="taste_routes_click">
                 {site.hero.ctaLabel} <span aria-hidden="true">↘</span>
               </a>
             </div>
@@ -178,6 +178,7 @@ export default function HomeExperience({
                       className={activeRoute?.id === route.id ? 'active' : ''}
                       key={route.id}
                       style={routeStyle(route.id, index)}
+                      data-ga-event="taste_route_select" data-ga-item={route.id}
                       onClick={() => { setActiveRouteID(route.id); setSelectedMenu(''); setPage(1) }}
                       role="tab"
                       type="button"
@@ -200,7 +201,7 @@ export default function HomeExperience({
                   <div className="store-grid">
                     {visibleStores.length > 0 ? (
                       pagedStores.map((store) => (
-                        <article className="store-card" key={store.id} onClick={() => setSelectedStore(store)}>
+                        <article className="store-card" key={store.id} data-ga-event="store_detail_open" data-ga-item={store.id} onClick={() => setSelectedStore(store)}>
                           <div className="store-card-content">
                           <h3>{store.name}</h3>
                           <dl>
@@ -247,7 +248,7 @@ export default function HomeExperience({
                 <br />
                 {site.festival.programHours}
               </p>
-              <small>{site.festival.note}</small><a className="primary-button festival-detail-link" href="/festival">{site.festival.detailLabel} <span aria-hidden="true">↗</span></a>
+              <small>{site.festival.note}</small><a className="primary-button festival-detail-link" href="/festival" data-ga-event="festival_schedule_click">{site.festival.detailLabel} <span aria-hidden="true">↗</span></a>
             </div>
             {poster && (
               <a className="poster-link" href={poster.url} rel="noreferrer" target="_blank">

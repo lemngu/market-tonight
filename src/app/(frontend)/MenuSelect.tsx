@@ -23,7 +23,7 @@ export default function MenuSelect({ options, value, onChange }: { options: stri
       const focused = [...event.currentTarget.querySelectorAll('button')].indexOf(document.activeElement as HTMLButtonElement)
       if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) { event.preventDefault(); focusOption(event.key === 'Home' ? 0 : event.key === 'End' ? choices.length - 1 : (focused + (event.key === 'ArrowDown' ? 1 : -1) + choices.length) % choices.length) }
       if (event.key === 'Escape') { event.preventDefault(); setOpen(false); trigger.current?.focus() }
-    }}>{choices.map(choice => <button type="button" role="option" aria-selected={value === choice.value} key={choice.value} onClick={() => { onChange(choice.value); setOpen(false); trigger.current?.focus() }}><span>{choice.label}</span>{value === choice.value && <span aria-hidden="true">✓</span>}</button>)}</div>}
+    }}>{choices.map(choice => <button type="button" role="option" data-ga-event="route_menu_select" data-ga-item={choice.value ? "representative_menu" : "all_menus"} aria-selected={value === choice.value} key={choice.value} onClick={() => { onChange(choice.value); setOpen(false); trigger.current?.focus() }}><span>{choice.label}</span>{value === choice.value && <span aria-hidden="true">✓</span>}</button>)}</div>}
   </div>
 }
 

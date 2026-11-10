@@ -35,7 +35,7 @@ function publicStores(rows, photosEnabled) {
     if (!routeIds.length) continue;
     const id = /^[a-zA-Z0-9_-]{1,94}$/.test(explicitId)
       ? 'sheet-' + explicitId
-      : 'sheet-' + Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, name + '\n' + location)).replace(/=+$/, '');
+      : 'sheet-' + Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, name + '\n' + location, Utilities.Charset.UTF_8)).replace(/=+$/, '');
     if (seen.has(id)) continue;
     seen.add(id);
     const menus = [...new Set(menuList.split(/[,\n]+/).map(item => item.trim().slice(0, 160)).filter(Boolean))].slice(0, 100);

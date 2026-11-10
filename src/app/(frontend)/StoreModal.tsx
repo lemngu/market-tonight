@@ -6,13 +6,30 @@ import type { HomeRoute, HomeStore, SiteCopy } from '@/lib/content-schema'
 
 export default function StoreModal({ store, routes, site, onClose, themeID }: { store: HomeStore | null; routes: HomeRoute[]; site: SiteCopy; onClose: () => void; themeID?: string }) {
   const dialog = useRef<HTMLDialogElement>(null)
-  const [failedPhoto, setFailedPhoto] = useState<string | null>(null)
-  const photo = store?.image && store.image.url !== failedPhoto ? store.image : null
   const palette = getRouteColors(themeID ?? store?.routeIds[0] ?? "budget")
   const themeStyle = { "--route-color": palette.color, "--route-tint": palette.tint, "--route-strong": palette.strong, "--route-accent": palette.accent } as CSSProperties
   useEffect(() => { if (store) dialog.current?.showModal(); else dialog.current?.close() }, [store?.id])
   return <dialog ref={dialog} className="public-store-modal" style={themeStyle} aria-labelledby="public-store-title" onCancel={onClose} onClose={onClose}>{store && <>
     <div className="public-store-modal-head"><span>GUWOL MORAENAE / STORE</span><button type="button" aria-label="점포 상세 닫기" onClick={onClose}>✕</button></div>
-    <div className="public-store-modal-body"><div className="public-store-image">{photo ? <Image unoptimized src={photo.url} alt={photo.alt || store.name} width={photo.width} height={photo.height} onError={() => setFailedPhoto(photo.url)} /> : <div><span aria-hidden="true">↗</span><p>점포 사진 준비 중</p></div>}</div><div className="public-store-copy"><div className="public-store-themes">{store.routeIds.map(id => routes.find(route => route.id === id)).filter(Boolean).map(route => <span key={route!.id}>{route!.name}</span>)}</div><h2 id="public-store-title">{store.name}</h2><dl><div className="modal-menu-row"><dt>메뉴</dt><dd>{store.menus?.length ? store.menus.join(' · ') : store.menu || site.routesSection.unconfirmedLabel}</dd></div><div className="modal-price-row"><dt>{site.routesSection.priceLabel}</dt><dd>{(store.id.startsWith("demo-") ? store.price.replace(/^예시\s*/, "") : store.price) || site.routesSection.unconfirmedLabel}</dd></div><div><dt>{site.routesSection.hoursLabel}</dt><dd>{store.hours || site.routesSection.unconfirmedLabel}</dd></div><div className="modal-location-row"><dt>위치</dt><dd>{store.location || "위치 확인 중"}</dd></div></dl></div></div><div className="public-store-modal-foot"><button className="store-detail-button" type="button" onClick={onClose}>목록으로 <span aria-hidden="true">→</span></button></div>
+    <div className="public-store-modal-body"><StorePhoto key={store.image?.url} image={store.image} name={store.name} /><div className="public-store-copy"><div className="public-store-themes">{store.routeIds.map(id => routes.find(route => route.id === id)).filter(Boolean).map(route => <span key={route!.id}>{route!.name}</span>)}</div><h2 id="public-store-title">{store.name}</h2><dl><div className="modal-menu-row"><dt>메뉴</dt><dd>{store.menus?.length ? store.menus.join(' · ') : store.menu || site.routesSection.unconfirmedLabel}</dd></div><div className="modal-price-row"><dt>{site.routesSection.priceLabel}</dt><dd>{(store.id.startsWith("demo-") ? store.price.replace(/^예시\s*/, "") : store.price) || site.routesSection.unconfirmedLabel}</dd></div><div><dt>{site.routesSection.hoursLabel}</dt><dd>{store.hours || site.routesSection.unconfirmedLabel}</dd></div><div className="modal-location-row"><dt>위치</dt><dd>{store.location || "위치 확인 중"}</dd></div></dl></div></div><div className="public-store-modal-foot"><button className="store-detail-button" type="button" data-ga-event="store_detail_close" onClick={onClose}>목록으로 <span aria-hidden="true">→</span></button></div>
   </>}</dialog>
+}
+
+function StorePhoto({ image, name }: { image: HomeStore['image']; name: string }) {
+  const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading')
+  const showImage = image && status !== 'failed'
+
+  return (
+    <div className="public-store-image">
+      {(!showImage || status === 'loading') && (
+        <div className="public-store-photo-placeholder" role="status">
+          <p>{showImage ? '점포 사진을 불러오는 중입니다.' : '점포 사진 준비 중'}</p>
+        </div>
+      )}
+      {showImage && (
+        <Image unoptimized loading="eager" src={image.url} alt={image.alt || name}
+          width={image.width} height={image.height} onLoad={() => setStatus('ready')} onError={() => setStatus('failed')} />
+      )}
+    </div>
+  )
 }
