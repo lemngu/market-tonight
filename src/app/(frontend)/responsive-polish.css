@@ -406,6 +406,36 @@ html:has(.hero-editorial) { scroll-padding-top: 96px; }
 /* Keep theme badges centered and mobile dialog controls within reach. */
 .public-store-modal .public-store-themes { justify-content: center; }
 @media(max-width:767px) {
- .public-store-modal .public-store-modal-head { position: sticky; top: 0; z-index: 5; background: var(--route-tint); }
+ .public-store-modal[open] {
+   display: grid;
+   grid-template-rows: auto minmax(0, 1fr) auto;
+   overflow: hidden;
+ }
+ .public-store-modal .public-store-modal-body {
+   overflow-y: auto;
+   overscroll-behavior-y: contain;
+ }
+ .public-store-modal .public-store-modal-foot {
+   padding: 12px 20px max(12px, env(safe-area-inset-bottom));
+   border-top: 1px solid color-mix(in srgb, var(--route-color) 25%, transparent);
+ }
 }
 .public-store-modal .public-store-modal-foot .store-detail-button { font-size: 12px; }
+
+.site-shell #routes .store-card { cursor: pointer; }
+.route-detail-shell .routes-section::before { display: none; }
+.festival-detail-page .event-program-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 12px;
+}
+.festival-detail-page .event-program-meta .event-program-time,
+.festival-detail-page .event-program-meta .event-program-place {
+  margin: 0;
+  font-size: 14px;
+}
+.festival-detail-page .event-program-meta .event-program-place { text-align: right; }
+.festival-detail-page .event-linked-description { white-space: pre-line; }

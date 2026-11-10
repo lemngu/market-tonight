@@ -11,21 +11,21 @@ const ROUTE_IDS = {
 
 function doGet() {
   try {
-    const result = Sheets.Spreadsheets.Values.get(STORE_SHEET_ID, "'웹사이트 점포'!A1:I2001", {
+    const result = Sheets.Spreadsheets.Values.get(STORE_SHEET_ID, "'웹사이트 점포'!A1:J2001", {
       valueRenderOption: 'FORMATTED_VALUE',
     });
     const [headers = [], ...rows] = result.values ?? [];
     if (!STORE_COLUMNS.every((header, index) => headers[index] === header)) {
       throw new Error('Store headers changed');
     }
-    return json({ stores: publicStores(rows) });
+    return json({ stores: publicStores(rows, headers[9] === '점포 사진 (Drive 링크)') });
   } catch (error) {
     console.error('Store feed could not be read');
     return json({ error: 'Store feed is unavailable' });
   }
 }
 
-function publicStores(rows) {
+function publicStores(rows, photosEnabled) {
   const seen = new Set();
   const stores = [];
   for (const row of rows) {
@@ -41,6 +41,7 @@ function publicStores(rows) {
     const menus = [...new Set(menuList.split(/[,\n]+/).map(item => item.trim().slice(0, 160)).filter(Boolean))].slice(0, 100);
     stores.push({
       id, name, isVisible: true, routeIds, image: null, menus,
+      photoLink: photosEnabled ? String(row[9] ?? '').trim().slice(0, 2000) : '',
       menu: menu.slice(0, 4000), price: price.slice(0, 4000),
       hours: hours.slice(0, 4000), location: location.slice(0, 4000),
     });

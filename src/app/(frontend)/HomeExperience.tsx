@@ -88,10 +88,10 @@ export default function HomeExperience({
     }
   }, [activeRoute?.id])
   const routeStores = useMemo(() => sourceStores.filter(store => activeRoute && store.routeIds.includes(activeRoute.id)), [activeRoute, sourceStores])
-  const menusForStore = (store: HomeStore) => store.menus?.length ? store.menus : (store.menu.trim() ? [store.menu.trim()] : [])
-  const menuOptions = Array.from(new Set(routeStores.flatMap(menusForStore))).sort((a,b) => a.localeCompare(b,'ko'))
+  const menuOptions = [...new Set(routeStores.map(store => store.menu.trim()).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, 'ko'))
   const currentMenu = menuOptions.includes(selectedMenu) ? selectedMenu : ''
-  const visibleStores = routeStores.filter(store => !currentMenu || menusForStore(store).includes(currentMenu))
+  const visibleStores = routeStores.filter(store => !currentMenu || store.menu.trim() === currentMenu)
 
   const [pageSize, setPageSize] = useState(8)
   useEffect(() => {
@@ -200,7 +200,7 @@ export default function HomeExperience({
                   <div className="store-grid">
                     {visibleStores.length > 0 ? (
                       pagedStores.map((store) => (
-                        <article className="store-card" key={store.id}>
+                        <article className="store-card" key={store.id} onClick={() => setSelectedStore(store)}>
                           <div className="store-card-content">
                           <h3>{store.name}</h3>
                           <dl>
@@ -214,7 +214,7 @@ export default function HomeExperience({
                               <dd>{store.hours || site.routesSection.unconfirmedLabel}</dd>
                             </div>
                           </dl>
-                          <button className="store-detail-button" type="button" aria-label={store.name + " " + site.routesSection.detailLabel} onClick={() => setSelectedStore(store)}><span className="store-detail-label">{site.routesSection.detailLabel}</span><span aria-hidden="true">→</span></button>
+                          <button className="store-detail-button" type="button" aria-label={store.name + " " + site.routesSection.detailLabel}><span className="store-detail-label">{site.routesSection.detailLabel}</span><span aria-hidden="true">→</span></button>
                           </div>
                         </article>
                       ))
@@ -238,8 +238,6 @@ export default function HomeExperience({
             <div className="festival-copy">
               <span className="section-label">02 / MARKET NIGHT</span>
               <h2>{site.festival.heading}</h2>
-              <strong>{site.festival.name}</strong>
-              <p>{site.festival.highlights}</p>
               <div className="festival-date">
                 <b>{site.festival.date}</b>
                 <span>{site.festival.schedule}</span>
