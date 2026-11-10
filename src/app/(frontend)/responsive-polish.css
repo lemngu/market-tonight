@@ -415,9 +415,12 @@ html:has(.hero-editorial) { scroll-padding-top: 96px; }
    overflow: hidden;
  }
  .public-store-modal .public-store-modal-body {
+   display: flex;
+   flex-direction: column;
    overflow-y: auto;
    overscroll-behavior-y: contain;
  }
+ .public-store-modal .public-store-image { flex: none; }
  .public-store-modal .public-store-modal-foot {
    padding: 12px 20px max(12px, env(safe-area-inset-bottom));
    border-top: 1px solid color-mix(in srgb, var(--route-color) 25%, transparent);

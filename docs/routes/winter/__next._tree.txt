@@ -1,7 +1,7 @@
 :HL["/_next/static/chunks/1nrtd-du62pw3.css","style"]
-:HL["/_next/static/chunks/3jjy8jht7tye5.css","style"]
+:HL["/_next/static/chunks/3ik_xpwke9ijt.css","style"]
 4:[["children",{"s":"__PAGE__","h":160}]]
 3:[["children",{"s":{"n":"routeId","t":"d","k":"winter","s":[]},"h":96,"c":"$Q4"}]]
 2:[["children",{"s":"routes","h":96,"c":"$Q3"}]]
 1:[["children",{"s":"(frontend)","h":112,"c":"$Q2"}]]
-0:{"b":"5yNClpDqFGZgNHCI7lEmO","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"OgK5rlKcBomx9k_jZjkOE","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
