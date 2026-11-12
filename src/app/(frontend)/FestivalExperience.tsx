@@ -3,6 +3,7 @@ import type { SiteCopy } from '@/lib/content-schema'
 import { djPerformers, festivalArtwork, schoolPerformers } from '@/lib/festival-artwork'
 import SiteFrame from './SiteFrame'
 import TimetableOverview from './TimetableOverview'
+import FestivalTabs from './FestivalTabs'
 
 export default function FestivalExperience({ site }: { site: SiteCopy }) {
   const copy = site.festivalPage
@@ -21,9 +22,7 @@ export default function FestivalExperience({ site }: { site: SiteCopy }) {
     <header className="detail-page-heading"><span>{copy.eyebrow}</span><h1>{copy.title}</h1><p>{copy.description}</p>
       <div className="event-quick-facts"><span>{copy.date}</span><span>{copy.schedule}</span><span>{copy.location}</span></div>
     </header>
-    <nav className="festival-section-tabs" aria-label="행사 안내 바로가기">
-      {sections.map(([id, title]) => <a key={id} href={'#' + id}>{title}</a>)}
-    </nav>
+    <FestivalTabs sections={sections} />
     <section className="festival-program-section" id="overview" aria-labelledby="overview-title">
       <div className="program-section-heading"><span>01 / TIME TABLE</span><h2 id="overview-title">행사 안내</h2></div>
       <TimetableOverview image={copy.timetable || festivalArtwork.overview} />
@@ -70,9 +69,9 @@ export default function FestivalExperience({ site }: { site: SiteCopy }) {
     </section>
     <section className="festival-program-section rice-sale-section" id="rice-sale" aria-labelledby="rice-title">
       <div className="program-section-heading"><span>07 / MARKET SPECIAL</span><h2 id="rice-title">쌀 할인 판매 행사</h2><p className="program-subtitle">전통시장 가는 날</p></div>
-      <div className="rice-sale-card"><p className="rice-sale-lead">고품질 쌀을 시중가 대비 저렴하게 구매하고, 온누리상품권 혜택도 받아가세요.</p>
+      <div className="rice-sale-card">
         <p className="rice-offer">고시히까리쌀 <strong>10kg</strong><br /><b>39,000원</b></p>
-        <p className="rice-benefit">{copy.linkedDescription}</p>
+        <div className="rice-benefit"><span className="rice-benefit-badge">온누리상품권 1만 원권 증정</span><p className="rice-purchase-limit">(1인 최대 3포 구매 제한)</p></div>
         <dl><div><dt>일시</dt><dd>{copy.linkedSchedule}</dd></div><div><dt>판매 장소</dt><dd>{copy.linkedLocation}</dd></div></dl>
         <p className="rice-sale-note">{copy.linkedNote}</p>
       </div>

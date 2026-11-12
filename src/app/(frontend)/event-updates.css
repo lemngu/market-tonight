@@ -222,3 +222,20 @@ html:has(.festival-detail-page) { scroll-behavior: smooth; }
 .festival-section-tabs a[href="#art-flea-market"]:hover, .festival-section-tabs a[href="#art-flea-market"]:focus-visible { color: #25281f; box-shadow: inset 0 0 0 2px #25281f; }
 .site-shell #flea-market { scroll-margin-top: calc(var(--nav-height,96px) + 24px); }
 @media(max-width:767px) { .site-shell #flea-market { scroll-margin-top: calc(var(--nav-height,76px) + 24px); } }
+
+@media(max-width:767px) { .schedule-mobile.overview-program-list .program-summary time { font-weight: 900; } }
+.festival-section-tabs::after { content: ''; flex: 0 0 var(--tabs-tail,0px); }
+.festival-section-tabs a:not([aria-current=location]), .festival-section-tabs a:not([aria-current=location]):hover, .festival-section-tabs a:not([aria-current=location]):focus-visible { background: transparent; color: var(--event-tab-color); box-shadow: none; }
+.festival-section-tabs a:is([href="#art-flea-market"],[href="#rice-sale"]):not([aria-current=location]) { color: #8a650b; border-color: #bd8c13; }
+.festival-section-tabs a[aria-current=location] { background: var(--event-tab-color); color: #fff; border-color: var(--event-tab-color); }
+.festival-section-tabs a:is([href="#art-flea-market"],[href="#rice-sale"])[aria-current=location] { color: #25281f; }
+.festival-section-tabs a:focus-visible { outline: 3px solid var(--event-tab-color); outline-offset: 3px; }
+
+.festival-section-tabs a { transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease; }
+.festival-section-tabs a[aria-current=location], .festival-section-tabs a[aria-current=location]:hover, .festival-section-tabs a[aria-current=location]:focus-visible { border-color: transparent; box-shadow: none; }
+.rice-benefit { margin: 20px 0 0; white-space: normal; }
+.rice-benefit-badge { display: inline-block; max-width: 100%; padding: 12px 16px; border-radius: 0; background: #ee4729; color: #fff4d6; font-size: clamp(16px,2vw,20px); font-weight: 900; line-height: 1.5; word-break: keep-all; }
+.rice-benefit .rice-purchase-limit { margin: 10px 0 0; color: #25281f; font-size: 13px; font-weight: 600; line-height: 1.6; }
+@media(prefers-reduced-motion:reduce) { .festival-section-tabs a { transition: none; } }
+
+.rice-benefit-badge { padding: 6px 10px; background: #173361; color: #fff4d6; font-size: 15px; font-weight: 800; line-height: 1.5; }
