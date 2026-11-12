@@ -1,39 +1,4 @@
 /* Responsive reference alignment and route-local sticky navigation. */
-.site-shell #routes .tabs {
-  position: sticky;
-  top: var(--nav-height, 96px);
-  z-index: 50;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  width: 100%;
-  margin-inline: 0;
-  padding: 12px 0;
-  background: var(--cream);
-  box-sizing: border-box;
-}
-.site-shell #routes .route-panel {
-  --route-ink: var(--route-strong);
-  background: var(--route-tint);
-  color: var(--route-strong);
-}
-.site-shell #routes .route-panel .panel-head,
-.site-shell #routes .route-panel .selected-route-label { text-shadow: none; }
-.site-shell #routes .route-panel .demo-store-notice { background: #ffffff75; }
-.site-shell #routes .route-panel .store-pagination button:disabled { opacity: .55; }
-@media (min-width: 768px) {
-  .site-shell #routes .tabs { gap: 12px; overflow: visible; }
-  .site-shell #routes .tabs button {
-    flex: 1 1 0;
-    width: 0;
-    min-width: 0;
-    max-width: none;
-    margin: 0;
-    white-space: normal;
-    transform: none;
-  }
-  .site-shell #routes .tabs button:hover { transform: translateY(-3px); }
-}
 @media (max-width: 767px) {
   .hero.hero-editorial .hero-copy > .primary-button {
     display: inline-flex;
@@ -50,8 +15,7 @@
     align-self: start;
     margin: 0 0 0 auto;
   }
-  .hero.hero-editorial .hero-figure .hero-image,
-  .hero.hero-editorial .hero-figure .hero-image:hover {
+  .hero.hero-editorial .hero-figure .hero-image,.hero.hero-editorial .hero-figure .hero-image:hover {
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
@@ -64,25 +28,6 @@
     height: 100%;
     object-fit: cover;
   }
-  .site-shell #routes .tabs {
-    gap: 8px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
-    scrollbar-width: thin;
-    scrollbar-color: var(--route-strong) transparent;
-    -webkit-overflow-scrolling: touch;
-  }
-  .site-shell #routes .tabs button {
-    flex: 0 0 auto;
-    width: max-content;
-    min-width: 0;
-    max-width: none;
-    margin: 0;
-    white-space: nowrap;
-    transform: none;
-  }
-  .site-shell #routes .tabs button:hover { transform: none; }
   .site-shell .festival-inner > .poster-link {
     width: min(78%, 330px);
     max-width: 100%;
@@ -113,29 +58,10 @@
   .hero.hero-editorial .hero-copy h1 span:last-child { margin-left: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero.hero-editorial .hero-copy h1 span:first-child,
-  .hero.hero-editorial .hero-copy h1 span:last-child,
-  .hero.hero-editorial .hero-copy h1:hover span:first-child,
-  .hero.hero-editorial .hero-copy h1:hover span:last-child { transition: none; transform: none; }
+  .hero.hero-editorial .hero-copy h1 span:first-child,.hero.hero-editorial .hero-copy h1 span:last-child,.hero.hero-editorial .hero-copy h1:hover span:first-child,.hero.hero-editorial .hero-copy h1:hover span:last-child { transition: none; transform: none; }
 }
 
 /* Neutral reading text; theme hues are reserved for titles and actions. */
-.site-shell #routes { background: #FFFAF0; --cream: #FFFAF0; }
-.site-shell #routes .route-panel { --route-ink: #30343B; color: #30343B; }
-.site-shell #routes .route-panel .panel-head h3,
-.site-shell #routes .route-panel .store-card h3,
-.site-shell #routes .route-panel .empty-result strong { color: var(--route-strong); }
-.site-shell #routes .route-panel .panel-head p,
-.site-shell #routes .route-panel .store-card p,
-.site-shell #routes .route-panel .store-card dd,
-.site-shell #routes .route-panel .menu-select-trigger { color: #30343B; }
-.site-shell #routes .route-panel .selected-route-label,
-.site-shell #routes .route-panel .result-meta > span:last-child,
-.site-shell #routes .route-panel .store-card dt,
-.site-shell #routes .route-panel .store-card .store-photo-placeholder,
-.site-shell #routes .route-panel .demo-store-notice p { color: #626873; }
-.site-shell #routes .route-panel .store-card .store-photo-placeholder svg { color: var(--route-strong); }
-.site-shell #routes .route-panel .menu-select-list button:not([aria-selected=true]) { color: #30343B; }
 
 /* Keep the market name prominent with a compact, balanced hero. */
 .hero.hero-editorial .hero-card { min-height: 680px; padding-top: 110px; padding-bottom: 90px; align-items: center; }
@@ -182,83 +108,18 @@
 .site-shell .pattern-ribbon { position: relative; z-index: 4; margin-top: -12px; margin-bottom: -12px; }
 @media(max-width:767px) {
  .site-shell .pattern-ribbon { padding-block: 4px; margin-top: -9px; margin-bottom: -9px; }
- .site-shell .pattern-ribbon-set span, .site-shell .pattern-ribbon-set img { width: 38px; height: 38px; }
+ .site-shell .pattern-ribbon-set span,.site-shell .pattern-ribbon-set img { width: 38px; height: 38px; }
  .site-shell .pattern-ribbon-set span { flex-basis: 38px; }
- .site-shell #routes .tabs { width: calc(100% + 2 * var(--page-gutter)); max-width: none; margin-inline: calc(-1 * var(--page-gutter)); padding: 12px var(--page-gutter); scroll-padding-inline: var(--page-gutter); border-bottom: 1px solid #1c376b18; }
- .site-shell #routes .tabs::after { content: ''; flex: 0 0 1px; }
- .site-shell #routes .route-panel { height: auto; min-height: 0; max-height: none; padding: 16px 12px; box-shadow: none; }
- .site-shell #routes .store-grid { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: none; grid-auto-rows: auto; overflow: visible; padding: 0; gap: 10px; }
- .site-shell #routes .store-card { display: flex; flex-direction: column; height: auto; min-height: 0; padding: 10px; gap: 10px; }
- .site-shell #routes .store-photo-wrap { width: 100%; height: 84px; flex: 0 0 84px; }
- .site-shell #routes .store-photo-placeholder { gap: 4px; }
- .site-shell #routes .store-photo-placeholder svg { width: 28px; height: 28px; }
- .site-shell #routes .store-card-content { display: flex; flex-direction: column; flex: 1; overflow: visible; }
- .site-shell #routes .store-card-content h3 { font-size: 15px; white-space: normal; overflow: visible; }
- .site-shell #routes .store-card-content .menu-name { font-size: 11px; white-space: normal; }
- .site-shell #routes .store-card-content dl { font-size: 10px; margin-bottom: 10px; }
- .site-shell #routes .store-card-content dl div { display: block; margin-bottom: 6px; }
- .site-shell #routes .store-card-content dd { white-space: normal; overflow: visible; }
- .site-shell #routes .store-detail-button { margin-top: auto; min-height: 36px; width: 100%; padding-inline: 6px; font-size: 11px; }
- .site-shell #routes .store-grid > .empty-result { grid-column: 1 / -1; }
 }
 .hero.hero-editorial .hero-figure { padding-bottom: 0; }
 .hero.hero-editorial .hero-figure figcaption { position: relative; right: auto; bottom: auto; margin: 12px 0 0 auto; }
 
 .site-shell .footer-card-label { display: block; width: 100%; text-align: center; font-size: clamp(15px,1.5vw,20px); line-height: 1.4; letter-spacing: .04em; }
-@media(max-width:767px) {
- .site-shell #routes .store-card > .store-photo-wrap { display: none; }
- .site-shell #routes .store-card-content dl div { display: flex; justify-content: space-between; align-items: baseline; gap: 5px; }
- .site-shell #routes .store-card-content dt { flex-shrink: 0; }
- .site-shell #routes .store-card-content dd { text-align: right; font-size: 10px; letter-spacing: -.04em; }
- .site-shell #routes .store-detail-label { display: none; }
- .site-shell #routes .store-detail-button { align-self: flex-end; width: 44px; min-height: 36px; justify-content: center; padding: 4px 10px; clip-path: polygon(18% 0,100% 0,82% 100%,0 100%); }
-}
 /* Theme-aware, square store details and concise list metadata. */
-.public-store-modal { border-radius: 0; background: var(--route-tint); color: #30343b; }
-.public-store-modal .public-store-image, .public-store-modal .public-store-modal-head button { border-radius: 0; }
-.public-store-modal .public-store-modal-head { color: var(--route-strong); border-color: color-mix(in srgb,var(--route-color) 25%,transparent); }
-.public-store-modal .public-store-copy h2, .public-store-modal .public-store-copy dt { color: var(--route-strong); }
-.public-store-modal .public-store-copy dd { color: #30343b; }
-.public-store-modal .public-store-themes span { background: var(--route-strong); color: #fff; border-radius: 0; }
-.public-store-modal .public-store-image { background: color-mix(in srgb,var(--route-color) 12%,var(--route-tint)); color: var(--route-strong); }
-.public-store-modal .public-store-image { position: relative; }
-.public-store-modal .public-store-image .public-store-photo-placeholder { position: absolute; inset: 0; padding: 12px; text-align: center; }
-.public-store-modal .public-store-image img { position: absolute; inset: 0; }
-.public-store-modal .public-store-note { color: #626873; }
-.public-store-modal .public-store-modal-foot .store-detail-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 16px; border: 0; border-radius: 0; padding: 10px 22px; background: var(--route-strong); color: #fff; font-size: 11px; min-height: 40px; clip-path: polygon(8% 0,100% 0,92% 100%,0 100%); }
-.public-store-modal .store-detail-button:focus-visible { outline: 2px solid var(--route-color); outline-offset: 3px; }
-.site-shell #routes .panel-head p { white-space: pre-line; }
-.site-shell #routes .store-card-content h3 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; white-space: normal; line-height: 1.35; max-height: 2.7em; }
-.site-shell #routes .store-card-content dl, .site-shell #routes .store-card-content dd { font-size: 12px; }
-.site-shell #routes .store-card-content dl div { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-.store-meta-icon { display: block; width: 15px; height: 15px; font-size: 15px; line-height: 15px; text-align: center; font-weight: 800; }
-.site-shell #routes .store-card-content dt { flex: 0 0 15px; }
-.site-shell #routes .store-card-content dd { min-width: 0; text-align: right; }
-.site-shell #routes .store-detail-button { font-size: 11px; }
-@media(max-width:767px) {
- .site-shell #routes .store-card-content dd { font-size: 12px; letter-spacing: -.04em; }
- .site-shell #routes .store-card { padding: 10px 8px; }
- .site-shell #routes .store-card-content dl div { gap: 3px; }
-}
 /* Offset section links below the fixed navigation. */
 html:has(.hero-editorial) { scroll-padding-top: 96px; }
-.hero-editorial, .site-shell:has(.hero-editorial) #routes, .site-shell:has(.hero-editorial) #festival, .site-shell:has(.hero-editorial) footer { scroll-margin-top: 0; }
+.hero-editorial,.site-shell:has(.hero-editorial) #festival,.site-shell:has(.hero-editorial) footer { scroll-margin-top: 0; }
 @media(min-width:1200px) and (min-height:700px) {
- .site-shell:has(.hero-editorial) #routes { height: calc(100svh - var(--nav-height)); min-height: 600px; padding-block: 24px; }
- .site-shell:has(.hero-editorial) .routes-inner { display: flex; flex-direction: column; height: 100%; min-height: 0; }
- .site-shell:has(.hero-editorial) .routes-heading { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px 32px; flex: 0 0 auto; align-items: end; }
- .site-shell:has(.hero-editorial) .routes-heading .section-label { grid-column: 1 / -1; margin-bottom: 8px; }
- .site-shell:has(.hero-editorial) .routes-heading h2 { font-size: clamp(36px,3vw,48px); }
- .site-shell:has(.hero-editorial) .routes-heading p { margin: 0; padding: 10px 14px; font-size: 14px; }
- .site-shell:has(.hero-editorial) #routes .tabs { position: relative; top: auto; margin-top: 14px; padding-block: 8px; flex: 0 0 auto; }
- .site-shell:has(.hero-editorial) #routes .route-panel { flex: 1 1 auto; height: auto; min-height: 0; max-height: none; margin-top: 12px; padding: 16px 20px; }
- .site-shell:has(.hero-editorial) .panel-head { margin-bottom: 12px; }
- .site-shell:has(.hero-editorial) .panel-head h3 { font-size: 24px; }
- .site-shell:has(.hero-editorial) .panel-head p { margin-top: 8px; font-size: 12px; }
- .site-shell:has(.hero-editorial) .store-grid { grid-template-rows: repeat(2,minmax(125px,1fr)); grid-auto-rows: minmax(125px,1fr); }
- .site-shell:has(.hero-editorial) .store-card { padding: 10px; gap: 10px; grid-template-columns: 76px minmax(0,1fr); }
- .site-shell:has(.hero-editorial) .store-photo-wrap { width: 76px; height: 76px; }
- .site-shell:has(.hero-editorial) .store-pagination { margin-top: 10px; flex-basis: 36px; }
  .site-shell:has(.hero-editorial) #festival { min-height: calc(100svh - var(--nav-height)); padding-block: 40px; display: flex; align-items: center; }
  .site-shell:has(.hero-editorial) .festival-copy h2 { font-size: clamp(38px,3.4vw,54px); }
  .site-shell:has(.hero-editorial) .festival-copy > p { font-size: 14px; }
@@ -279,157 +140,22 @@ html:has(.hero-editorial) { scroll-padding-top: 96px; }
  .site-shell:has(.hero-editorial) .festival-copy small { padding-block: 12px; }
  .site-shell:has(.hero-editorial) .festival-copy > .festival-detail-link { margin-top: 10px!important; }
 }
-@media(min-width:1200px) and (min-height:700px) {
- .site-shell:has(.hero-editorial) #routes .tabs { position: sticky; top: var(--nav-height); margin-block: 8px 0; padding-block: 4px; }
- .site-shell:has(.hero-editorial) #routes .route-panel { margin-top: 8px; padding: 12px 16px; }
- .site-shell:has(.hero-editorial) #routes .route-panel .panel-head { margin-bottom: 8px; }
- .site-shell:has(.hero-editorial) #routes .selected-route-label { font-size: 10px; margin-bottom: 0; }
- .site-shell:has(.hero-editorial) #routes .panel-head h3 { font-size: 22px; margin-block: 4px; }
- .site-shell:has(.hero-editorial) #routes .panel-head p { margin: 6px 0 0; padding: 0; line-height: 1.5; }
- .site-shell:has(.hero-editorial) #routes .route-panel .store-grid { flex: 1 1 auto; min-height: 0; height: auto; overflow: auto; grid-template-rows: repeat(2,minmax(120px,1fr)); grid-auto-rows: minmax(120px,1fr); gap: 8px; padding: 3px 5px 5px 0; }
- .site-shell:has(.hero-editorial) #routes .store-card-content h3 { font-size: 15px; margin-bottom: 3px; }
- .site-shell:has(.hero-editorial) #routes .store-card-content .menu-name { font-size: 11px; margin-bottom: 3px; }
- .site-shell:has(.hero-editorial) #routes .store-card-content dl { padding-top: 4px; }
- .site-shell:has(.hero-editorial) #routes .store-card-content dl div { margin-bottom: 2px; }
- .site-shell:has(.hero-editorial) #routes .store-detail-button { min-height: 28px; padding-block: 4px; }
-}
-@media(min-width:1200px) and (min-height:700px) {
- .site-shell:has(.hero-editorial) #routes .route-panel .store-grid .store-card { height: 100%; min-height: 0; }
- .site-shell:has(.hero-editorial) #routes .store-card-content { overflow: hidden; }
-}
-.site-shell #routes .store-detail-button .store-detail-label { font-size: inherit; }
 /* Shared text-first cards and an in-flow, touch-friendly menu chooser. */
-.site-shell #routes .route-panel .store-grid .store-card { display: flex; flex-direction: column; padding: 14px; }
-.site-shell #routes .route-panel .store-card-content { width: 100%; display: flex; flex-direction: column; overflow: hidden; }
-.site-shell #routes .route-panel .store-card-content h3 { display: block; -webkit-line-clamp: unset; max-height: none; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; font-size: 18px; line-height: 1.4; margin-bottom: 10px; }
-.site-shell #routes .route-panel .store-card-content dl { padding: 0; margin: 0 0 10px; border: 0; font-size: 13px; }
-.site-shell #routes .route-panel .store-card-content dl div { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 5px; }
-.site-shell #routes .route-panel .store-card-content dd { font-size: 13px; line-height: 1.5; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
-.site-shell #routes .route-panel .store-detail-button { align-self: flex-end; width: 44px; min-height: 32px; padding: 4px 10px; justify-content: center; clip-path: polygon(18% 0,100% 0,82% 100%,0 100%); }
-.site-shell #routes .store-detail-label { display: none; }
-.site-shell #routes .panel-head { align-items: flex-start; }
-.site-shell #routes .custom-menu-select { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
-.site-shell #routes .route-panel .menu-select-trigger { min-height: 48px; padding: 12px 16px; border: 2px solid var(--route-strong); border-radius: 0; background: var(--route-strong); color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; touch-action: manipulation; }
-.site-shell #routes .menu-select-list { position: static; width: 100%; box-sizing: border-box; max-height: 152px; border-radius: 0; margin: 0; box-shadow: none; flex: 0 0 auto; }
-.site-shell #routes .menu-select-list button { min-height: 44px; border-radius: 0; touch-action: manipulation; }
-.site-shell #routes .tabs { width: 100vw; max-width: none; margin-inline: calc(50% - 50vw); padding-inline: max(var(--page-gutter),calc((100vw - 1280px) / 2 + var(--page-gutter))); background: color-mix(in srgb,#FFFAF0 72%,transparent); backdrop-filter: blur(16px); }
-@media(min-width:1200px) {
- .site-shell #routes .route-panel .store-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
- .site-shell:has(.hero-editorial) #routes .route-panel .store-grid { grid-template-rows: repeat(2,minmax(174px,1fr)); grid-auto-rows: minmax(174px,1fr); }
- .site-shell:has(.hero-editorial) #routes .route-panel .store-card-content h3 { font-size: 18px; }
-}
 @media(max-width:767px) {
- .site-shell #routes .route-panel .store-grid .store-card { padding: 12px 8px; }
- .site-shell #routes .route-panel .store-card-content h3 { font-size: 15px; margin-bottom: 9px; }
- .site-shell #routes .route-panel .store-card-content dd { font-size: 12px; }
- .site-shell #routes .tabs { padding-inline: var(--page-gutter); }
- .site-shell #routes .tabs button { flex: 0 0 132px; width: 132px; min-width: 132px; max-width: 132px; }
  .site-shell .shared-header .header-logos { max-width: calc(100% - 52px); gap: 8px; }
  .site-shell .shared-header .header-logo-stack { min-width: 0; flex: 0 1 auto; }
  .site-shell .shared-header .header-logo-stack .logo-layer { height: 40px; min-height: 40px; max-height: 40px; width: auto; max-width: 100%; object-fit: contain; }
  .site-shell .sponsor-loop { height: 52px; min-height: 52px; }
- .site-shell .sponsor-inner, .site-shell .sponsor-track, .site-shell .sponsor-set, .site-shell .sponsor-logo { height: 20px; }
+ .site-shell .sponsor-inner,.site-shell .sponsor-track,.site-shell .sponsor-set,.site-shell .sponsor-logo { height: 20px; }
  .site-shell .sponsor-logo { padding-inline: 20px; }
  .site-shell .sponsor-logo img { height: 20px; width: auto; }
  .site-shell .sponsor-logo[data-logo=compact] img { height: 12px; }
 }
 /* Market price-tag hierarchy: centered product and accent price. */
-.site-shell #routes .route-panel .store-grid .store-card { height: auto; align-self: start; }
-.site-shell #routes .route-panel .store-card-content { flex: 0 0 auto; text-align: center; }
-.site-shell #routes .route-panel .store-card-content h3 { text-align: center; }
-.site-shell #routes .route-panel .store-card-content dl { padding-top: 10px; border-top: 1px solid color-mix(in srgb,var(--route-strong) 18%,transparent); }
-.site-shell #routes .route-panel .store-card-content dl div { justify-content: center; margin-bottom: 8px; }
-.site-shell #routes .route-panel .store-card-content dd { text-align: center; }
-.site-shell #routes .route-panel .store-card-content .store-menu-value,
-.site-shell #routes .route-panel .store-card-content .store-price-value { font-size: 20px; line-height: 1.35; font-weight: 900; letter-spacing: -.035em; }
-.site-shell #routes .route-panel .store-card-content .store-price-value { color: #C43E26; }
-.site-shell #routes .route-panel .store-detail-button { margin-top: 4px; }
-@media(min-width:768px) {
- .site-shell #routes .panel-head { align-items: center; }
- .site-shell #routes .tabs { position: relative; top: auto; backdrop-filter: none; background: #FFFAF0; }
- .site-shell #routes .route-panel .store-grid { grid-auto-rows: max-content; align-content: start; }
- .site-shell:has(.hero-editorial) #routes .route-panel .store-grid { grid-template-rows: none; grid-auto-rows: max-content; }
- .site-shell:has(.hero-editorial) #routes .route-panel .store-grid .store-card { height: auto; }
-}
-@media(max-width:767px) {
- .site-shell #routes .route-panel .panel-head { margin-bottom: 20px; }
- .site-shell #routes .tabs { position: sticky; top: var(--nav-height); backdrop-filter: blur(16px); }
-}
-@media(min-width:768px) {
- .site-shell:has(.hero-editorial) #routes .tabs { position: relative; top: auto; backdrop-filter: none; background: #FFFAF0; }
-}
-.site-shell #routes .route-panel .store-card-content dl div:nth-child(-n+2) { gap: 0; }
-.site-shell #routes .route-panel .store-card-content dl div:nth-child(-n+2) dt { flex: 0 0 0; width: 0; }
-.site-shell #routes .route-panel .store-card-content dl div:nth-child(-n+2) .store-meta-icon { display: none; }
-.site-shell #routes .route-panel .store-card-content dl div:nth-child(-n+2) dd { max-width: 100%; }
 /* Give desktop routes natural height instead of an inner scrolling list. */
-@media(min-width:768px) {
- .site-shell #routes, .site-shell:has(.hero-editorial) #routes { height: auto; min-height: calc(100svh - var(--nav-height)); padding-block: 40px; }
- .site-shell #routes .routes-inner, .site-shell:has(.hero-editorial) #routes .routes-inner { height: auto; }
- .site-shell #routes .tabs, .site-shell:has(.hero-editorial) #routes .tabs { margin-top: 24px; margin-bottom: 0; padding-block: 10px; }
- .site-shell #routes .route-panel, .site-shell:has(.hero-editorial) #routes .route-panel { flex: 0 0 auto; height: auto; max-height: none; min-height: 0; margin-top: 24px; padding: 28px; }
- .site-shell #routes .route-panel .panel-head, .site-shell:has(.hero-editorial) #routes .route-panel .panel-head { gap: 28px; margin-bottom: 28px; }
- .site-shell #routes .route-panel .panel-head h3, .site-shell:has(.hero-editorial) #routes .route-panel .panel-head h3 { font-size: 30px; line-height: 1.35; margin: 0; }
- .site-shell #routes .route-panel .panel-head p, .site-shell:has(.hero-editorial) #routes .route-panel .panel-head p { font-size: 16px; line-height: 1.8; margin-top: 12px; padding: 0; }
- .site-shell #routes .route-panel .store-grid, .site-shell:has(.hero-editorial) #routes .route-panel .store-grid { flex: 0 0 auto; height: auto; max-height: none; overflow: visible; grid-template-rows: none; grid-auto-rows: max-content; gap: 18px; padding: 0 5px 5px 0; }
- .site-shell #routes .route-panel .store-pagination, .site-shell:has(.hero-editorial) #routes .route-panel .store-pagination { margin-top: 24px; }
-}
-@media(max-width:767px) {
- .site-shell #routes .route-panel { margin-top: 22px; }
- .site-shell #routes .route-panel .panel-head p { margin-top: 12px; }
- .site-shell #routes .route-panel .store-grid { gap: 14px 10px; }
-}
 /* The menu list floats without changing the panel's layout height. */
-.site-shell #routes .custom-menu-select { position: relative; z-index: 60; }
-.site-shell #routes .menu-select-list { position: absolute; top: calc(100% + 8px); left: 0; right: 0; width: 100%; z-index: 60; max-height: 240px; box-shadow: 0 12px 28px #182d3526; }
 /* Details follow the same paper price-tag hierarchy as store cards. */
-.public-store-modal .public-store-copy h2 { text-align: center; font-size: 24px; padding-bottom: 14px; border-bottom: 1px solid color-mix(in srgb,var(--route-strong) 20%,transparent); }
-.public-store-modal .public-store-copy .modal-menu-row,
-.public-store-modal .public-store-copy .modal-price-row { display: block; text-align: center; border: 0; padding: 7px 0; }
-.public-store-modal .modal-menu-row dt, .public-store-modal .modal-price-row dt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-.public-store-modal .public-store-copy .modal-menu-row dd { font-size: 20px; font-weight: 900; }
-.public-store-modal .public-store-copy .modal-price-row dd { font-size: 20px; font-weight: 900; color: #C43E26; }
-.public-store-modal .public-store-modal-foot .store-detail-button { background: var(--route-strong); color: #fff; border-radius: 0; }
-.public-store-modal .public-store-modal-foot .store-detail-button span { background: transparent; color: #fff; border: 0; border-radius: 0; box-shadow: none; width: auto; height: auto; padding: 0; display: inline; }
-@media(max-width:767px) {
- .site-shell #routes .route-panel .store-grid { grid-template-columns: minmax(0,1fr); }
- .site-shell #routes .route-panel .store-grid .store-card { width: 100%; padding: 14px 16px; }
- .site-shell #routes .route-panel .store-card-content { display: grid; grid-template-columns: minmax(0,1fr) max-content 44px; gap: 8px 12px; text-align: left; align-items: center; }
- .site-shell #routes .route-panel .store-card-content h3 { grid-column: 1 / -1; grid-row: 1; margin: 0 0 2px; text-align: left; }
- .site-shell #routes .route-panel .store-card-content dl { display: contents; }
- .site-shell #routes .route-panel .store-card-content dl div { margin: 0; padding: 0; border: 0; min-width: 0; }
- .site-shell #routes .route-panel .store-card-content dl div:first-child { grid-column: 1; grid-row: 2; justify-content: flex-start; }
- .site-shell #routes .route-panel .store-card-content dl div:nth-child(2) { grid-column: 2; grid-row: 2; justify-content: flex-end; }
- .site-shell #routes .route-panel .store-card-content dl div:nth-child(3) { grid-column: 1 / -1; grid-row: 3; justify-content: flex-start; gap: 6px; }
- .site-shell #routes .route-panel .store-card-content dd { text-align: left; }
- .site-shell #routes .route-panel .store-card-content .store-menu-value,
- .site-shell #routes .route-panel .store-card-content .store-price-value { font-size: 20px; }
- .site-shell #routes .route-panel .store-detail-button { grid-column: 3; grid-row: 2; margin: 0; align-self: center; }
-}
 /* Keep theme badges centered and mobile dialog controls within reach. */
-.public-store-modal .public-store-themes { justify-content: center; }
-@media(max-width:767px) {
- .public-store-modal[open] {
-   display: grid;
-   grid-template-rows: auto minmax(0, 1fr) auto;
-   overflow: hidden;
- }
- .public-store-modal .public-store-modal-body {
-   display: flex;
-   flex-direction: column;
-   overflow-y: auto;
-   overscroll-behavior-y: contain;
- }
- .public-store-modal .public-store-image { flex: none; }
- .public-store-modal .public-store-modal-foot {
-   padding: 12px 20px max(12px, env(safe-area-inset-bottom));
-   border-top: 1px solid color-mix(in srgb, var(--route-color) 25%, transparent);
- }
-}
-.public-store-modal .public-store-modal-foot .store-detail-button { font-size: 12px; }
-
-.site-shell #routes .store-card { cursor: pointer; }
-.route-detail-shell .routes-section::before { display: none; }
 .festival-detail-page .event-program-meta {
   display: flex;
   justify-content: space-between;
@@ -438,10 +164,14 @@ html:has(.hero-editorial) { scroll-padding-top: 96px; }
   gap: 8px 12px;
   margin-bottom: 12px;
 }
-.festival-detail-page .event-program-meta .event-program-time,
-.festival-detail-page .event-program-meta .event-program-place {
+.festival-detail-page .event-program-meta .event-program-time,.festival-detail-page .event-program-meta .event-program-place {
   margin: 0;
   font-size: 14px;
 }
 .festival-detail-page .event-program-meta .event-program-place { text-align: right; }
 .festival-detail-page .event-linked-description { white-space: pre-line; }
+.site-shell .fixed-menu-toggle:not(.is-open) span:first-child { transform: translateY(-7px); opacity: 1; }
+.site-shell .fixed-menu-toggle:not(.is-open) span:nth-child(2) { transform: none; opacity: 1; }
+.site-shell .fixed-menu-toggle:not(.is-open) span:last-child { transform: translateY(7px); opacity: 1; }
+
+.map-info-grid { grid-template-columns: 1fr; }

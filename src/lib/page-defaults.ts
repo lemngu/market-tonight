@@ -1,4 +1,5 @@
 import { sectionCopy, updateProgramCopy } from './section-copy'
+import { festivalArtwork } from './festival-artwork'
 const basePageDefaults = {
   "routePage": {
     "eyebrow": "GUWOL MORAENAE / TASTE ROUTES",
@@ -74,6 +75,6 @@ const basePageDefaults = {
 
 export const pageDefaults = {
   routePage: { ...basePageDefaults.routePage, ...sectionCopy.routePage },
-  festivalPage: { ...basePageDefaults.festivalPage, ...sectionCopy.festivalPage, programs: basePageDefaults.festivalPage.programs.map(updateProgramCopy) },
-  mapPage: { ...basePageDefaults.mapPage, ...sectionCopy.mapPage },
+  festivalPage: { ...basePageDefaults.festivalPage, ...sectionCopy.festivalPage, timetable: festivalArtwork.overview, speakerImage: festivalArtwork.speaker, schoolTimetable: festivalArtwork.school, djTimetable: festivalArtwork.dj, linkedTitle: "전통시장 가는 날 · 쌀 할인 판매 행사", linkedDescription: "쌀 1포 구매 시 온누리상품권 1만 원권 1매 증정\n1인 최대 3포 구매 제한", linkedSchedule: "2026.11.13.(금)–11.14.(토)\n양일 13:00–17:00", linkedLocation: "골든벨리 & 수협 앞\n문화화장실 & 상인회 앞", linkedNote: "총 1,500포 판매 · 소진 시 조기 마감", programs: basePageDefaults.festivalPage.programs.map(updateProgramCopy) },
+  mapPage: { ...basePageDefaults.mapPage, ...sectionCopy.mapPage, image: festivalArtwork.map },
 }

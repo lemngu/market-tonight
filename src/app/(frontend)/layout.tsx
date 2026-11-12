@@ -9,15 +9,9 @@ import './detail-pages.css'
 import './hero-copy.css'
 import './section-copy.css'
 import './responsive-polish.css'
+import './event-updates.css'
 import { readContent } from '@/lib/content-store'
 
-const defaultTitle = '구월모래내 맛길 안내서'
-const title = makeSiteSettings.title ?? defaultTitle
-const description =
-  makeSiteSettings.description ??
-  '두 시장, 다섯 가지 취향. 인천 구월모래내시장의 맛길을 만나보세요.'
-const favicon = makeSiteSettings.icons?.icon
-const socialImage = makeSiteSettings.openGraph?.image
 const analyticsSetting = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID?.trim() || makeSiteSettings.analytics?.googleAnalyticsId
 const googleAnalyticsId = analyticsSetting && /^G-[A-Z0-9]+$/.test(analyticsSetting) ? analyticsSetting : undefined
 

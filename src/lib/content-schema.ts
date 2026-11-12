@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { pageDefaults } from './page-defaults'
 import { recommendedHeroCopy } from './hero-copy'
 import { sectionCopy } from './section-copy'
+import { festivalArtwork } from './festival-artwork'
 
 const text = z.string().max(4000)
 const short = z.string().trim().min(1).max(160)
@@ -9,7 +10,7 @@ const id = z.string().regex(/^[a-zA-Z0-9_-]{1,100}$/)
 const imageUrl = z.string().max(2000).refine(v => /^\/api\/uploads\/[a-f0-9-]+\.webp$/.test(v) || /^\/assets\/[a-zA-Z0-9_./%-]+$/.test(v), '업로드한 이미지 또는 assets 경로를 사용해주세요.')
 export const mediaSchema = z.object({ url: imageUrl, alt: text, width: z.number().int().positive().max(20000), height: z.number().int().positive().max(20000) }).strict().nullable()
 export const routeSchema = z.object({ id, name: short, description: text, introduction: text, advisory: text, isVisible: z.boolean() }).strict()
-export const storeSchema = z.object({ id, name: short, isVisible: z.boolean(), menu: text, menus: z.array(short).max(100).optional(), price: text, hours: text, location: text.optional(), image: mediaSchema.or(mediaSchema.unwrap().extend({ url: z.string().regex(/^\/api\/public-stores\?photo=[a-zA-Z0-9_-]{1,100}(?:&v=[a-f0-9]{24})?$/) })), routeIds: z.array(id).max(100) }).strict()
+export const storeSchema = z.object({ id, name: short, isVisible: z.boolean(), menu: text, menus: z.array(short).max(100).optional(), description: text.optional(), storeNames: z.array(short).max(500).optional(), price: text, hours: text, location: text.optional(), image: mediaSchema.or(mediaSchema.unwrap().extend({ url: z.string().regex(/^\/api\/public-stores\?photo=[a-zA-Z0-9_-]{1,100}(?:&v=[a-f0-9]{24})?$/) })), routeIds: z.array(id).max(100) }).strict()
 const color = z.string().regex(/^#[a-fA-F0-9]{6}$/)
 const currentSiteSchema = z.object({
   menuTagline: text.default(sectionCopy.menuTagline), brand: short, metaTitle: short, metaDescription: text, navRoutesLabel: text, navEventLabel: text,
@@ -17,7 +18,7 @@ const currentSiteSchema = z.object({
   routesSection: z.object({ browseLabel: text.default(sectionCopy.routesSection.browseLabel), countSuffix: text.default(sectionCopy.routesSection.countSuffix), title: text, description: text, selectedLabel: text, searchPlaceholder: text, countLabel: text, advisory: text, emptyTitle: text, emptyMessage: text, preparingTitle: text, preparingDescription: text, resetLabel: text, priceLabel: text, hoursLabel: text, unconfirmedLabel: text, menuUnconfirmedLabel: text, detailLabel: text }).strict(),
   festival: z.object({ detailLabel: text.default(sectionCopy.festival.detailLabel), isVisible: z.boolean(), heading: text, name: text, highlights: text, date: text, schedule: text, location: text, programHours: text, note: text, linkLabel: text, poster: mediaSchema }).strict(),
   routePage: z.object({sectionTitle: text.default(sectionCopy.routePage.sectionTitle), eyebrow: text, title: text, description: text}).strict().default(pageDefaults.routePage),
-  festivalPage: z.object({linkedEyebrow: text.default(sectionCopy.festivalPage.linkedEyebrow), linkedDescription: text.default(sectionCopy.festivalPage.linkedDescription), linkedNote: text.default(sectionCopy.festivalPage.linkedNote), eyebrow: text, title: text, description: text, date: text, schedule: text, location: text, timetableTitle: text, timetable: mediaSchema, programTitle: text, programs: z.array(z.object({time:text,title:text,place:text,color:z.enum(['yellow','blue','orange','olive']),description:text}).strict()).max(50), linkedTitle:text, linkedSchedule:text, linkedLocation:text, note:text}).strict().default(pageDefaults.festivalPage),
+  festivalPage: z.object({linkedEyebrow: text.default(sectionCopy.festivalPage.linkedEyebrow), linkedDescription: text.default(sectionCopy.festivalPage.linkedDescription), linkedNote: text.default(sectionCopy.festivalPage.linkedNote), eyebrow: text, title: text, description: text, date: text, schedule: text, location: text, timetableTitle: text, timetable: mediaSchema, speakerImage: mediaSchema.default(festivalArtwork.speaker), schoolTimetable: mediaSchema.default(festivalArtwork.school), djTimetable: mediaSchema.default(festivalArtwork.dj), programTitle: text, programs: z.array(z.object({time:text,title:text,place:text,color:z.enum(['yellow','blue','orange','olive']),description:text}).strict()).max(50), linkedTitle:text, linkedSchedule:text, linkedLocation:text, note:text}).strict().default(pageDefaults.festivalPage),
   mapPage: z.object({preparingDescription: text.default(sectionCopy.mapPage.preparingDescription), routesDescription: text.default(sectionCopy.mapPage.routesDescription), eventDescription: text.default(sectionCopy.mapPage.eventDescription), routesLinkLabel: text.default(sectionCopy.mapPage.routesLinkLabel), eventLinkLabel: text.default(sectionCopy.mapPage.eventLinkLabel), eyebrow: text, title: text, description: text, image:mediaSchema, placeholderTitle:text, placeholderDescription:text}).strict().default(pageDefaults.mapPage),
   notice: text,
   footer: z.object({ headingLine1: text, headingLine2: text, tagline: text, organization: text, analyticsNote: text, adminLabel: text }).strict(),

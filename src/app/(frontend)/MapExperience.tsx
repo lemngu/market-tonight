@@ -1,7 +1,17 @@
-import Image from 'next/image'
+import MarketMap from './MarketMap'
 import type { SiteCopy } from '@/lib/content-schema'
+import FleaMarketTabs from './FleaMarketTabs'
 import SiteFrame from './SiteFrame'
-export default function MapExperience({site}:{site:SiteCopy}) {
-  const copy=site.mapPage
-  return <SiteFrame site={site}><div className="detail-page-inner"><a className="detail-breadcrumb" href="/">홈 / 지도</a><header className="detail-page-heading"><span>{copy.eyebrow}</span><h1>{copy.title}</h1><p>{copy.image ? copy.description : copy.preparingDescription}</p></header>{copy.image ? <figure className="published-market-map"><Image unoptimized src={copy.image.url} alt={copy.image.alt || copy.placeholderTitle} width={copy.image.width} height={copy.image.height}/></figure> : <section className="map-placeholder" aria-label="시장 지도 준비 중"><div className="map-placeholder-grid" aria-hidden="true"><i /><i /><i /><span className="map-marker one">01</span><span className="map-marker two">02</span><span className="map-marker three">03</span></div><div className="map-placeholder-message"><span>COMING SOON</span><h2>{copy.placeholderTitle}</h2><p>{copy.placeholderDescription}</p></div></section>}<div className="map-info-grid"><article><span>01</span><h2>미식루트</h2><p>{copy.routesDescription}</p><a href="/routes">{copy.routesLinkLabel} →</a></article><article><span>02</span><h2>행사 공간</h2><p>{copy.eventDescription}</p><a href="/festival">{copy.eventLinkLabel} →</a></article></div></div></SiteFrame>
+
+export default function MapExperience({ site }: { site: SiteCopy }) {
+  const copy = site.mapPage
+  return <SiteFrame site={site}><div className="detail-page-inner market-map-page">
+    <header className="detail-page-heading"><span>{copy.eyebrow}</span><h1>{copy.title}</h1><p>{copy.description}</p></header>
+    <MarketMap copy={copy} />
+    <section className="flea-market-directory" aria-labelledby="flea-market-title">
+      <div className="program-section-heading"><span>FLEA MARKET</span><h2 id="flea-market-title">구역별 플리마켓 안내</h2></div>
+      <FleaMarketTabs />
+    </section>
+    <a className="primary-button map-program-link" href="/festival/">행사 프로그램 살펴보기 <span aria-hidden="true">↗</span></a>
+  </div></SiteFrame>
 }

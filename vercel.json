@@ -10,20 +10,12 @@
       "destination": "/index.html"
     },
     {
-      "source": "/market-tonight/:page(routes|festival|map)",
+      "source": "/market-tonight/:page(festival|map)",
       "destination": "/:page/index.html"
     },
     {
-      "source": "/market-tonight/:page(routes|festival|map)/",
+      "source": "/market-tonight/:page(festival|map)/",
       "destination": "/:page/index.html"
-    },
-    {
-      "source": "/market-tonight/routes/:route(budget|gluten-free|grill|vegan|winter)",
-      "destination": "/routes/:route/index.html"
-    },
-    {
-      "source": "/market-tonight/routes/:route(budget|gluten-free|grill|vegan|winter)/",
-      "destination": "/routes/:route/index.html"
     },
     {
       "source": "/market-tonight/:path*",

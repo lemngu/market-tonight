@@ -1,9 +1,4 @@
 /* Preserve the full-width store/theme directory while keeping its draft preview visible. */
-.admin-columns.stores-layout > .admin-preview {
-  display: block;
-  position: static;
-  margin-top: 28px;
-}
 .admin-preview > label {
   display: flex;
   align-items: center;

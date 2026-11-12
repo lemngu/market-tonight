@@ -71,14 +71,14 @@ test('fake MIME, oversized dimensions, empty data, oversize files and chunked ov
   await assert.rejects(readUploadForm(new Request('http://localhost/upload', { method: 'POST', body, duplex: 'half' })), /UPLOAD_TOO_LARGE/)
 })
 test('all rendered media types become public; hidden posters/stores and unreferenced uploads stay private', () => {
-  for (const [group, key] of [['hero', 'image'], ['mapPage', 'image'], ['festivalPage', 'timetable'], ['festival', 'poster']]) {
+  for (const [group, key] of [['hero', 'image'], ['mapPage', 'image'], ['festivalPage', 'timetable'], ['festivalPage', 'speakerImage'], ['festivalPage', 'schoolTimetable'], ['festivalPage', 'djTimetable']]) {
     const content = structuredClone(defaultContent); content.site[group][key] = image
     assert.equal(isPublishedMedia(content, image.url), true, group + '.' + key)
   }
   const content = structuredClone(defaultContent); content.site.festival.poster = image; content.site.festival.isVisible = false
   assert.equal(isPublishedMedia(content, image.url), false)
   content.stores.push({ id: 'test', name: 'test', menu: '', price: '', hours: '', isVisible: true, image, routeIds: ['budget'] })
-  assert.equal(isPublishedMedia(content, image.url), true)
+  assert.equal(isPublishedMedia(content, image.url), false)
   content.routes[0].isVisible = false
   assert.equal(isPublishedMedia(content, image.url), false)
 })

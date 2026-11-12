@@ -5,5 +5,5 @@ export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   const data = await getHomeData()
-  return <HomeExperience {...data} publicFeed showDemo={process.env.NODE_ENV === 'development'} />
+  return <HomeExperience {...data} />
 }
