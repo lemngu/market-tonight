@@ -32,20 +32,41 @@ export default function ZoomableMap({ image, compact = false }: { image: HomeMed
   useEffect(() => {
     const box = viewport.current
     if (!box) return
-    const wheel = (event: WheelEvent) => { event.preventDefault(); zoom(Math.exp(-event.deltaY * .003), event.clientX, event.clientY) }
+    const wheel = (event: WheelEvent) => { if (!event.ctrlKey) return; event.preventDefault(); zoom(Math.exp(-event.deltaY * .003), event.clientX, event.clientY) }
     box.addEventListener('wheel', wheel, { passive: false })
+    let previous: { x: number; y: number; distance: number } | null = null
+    const points = (event: TouchEvent) => {
+      if (event.touches.length !== 2) return null
+      const a = event.touches[0], b = event.touches[1]
+      return { x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2, distance: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) }
+    }
+    const start = (event: TouchEvent) => { previous = points(event) }
+    const move = (event: TouchEvent) => {
+      const next = points(event)
+      if (next && previous) {
+        event.preventDefault()
+        zoom(next.distance / Math.max(1, previous.distance), next.x, next.y)
+        const v = transform.current
+        apply(v.scale, v.x + next.x - previous.x, v.y + next.y - previous.y)
+      }
+      previous = next
+    }
+    box.addEventListener('touchstart', start, { passive: true })
+    box.addEventListener('touchmove', move, { passive: false })
+    box.addEventListener('touchend', start, { passive: true })
+    box.addEventListener('touchcancel', start, { passive: true })
     const observer = new ResizeObserver(() => { const v = transform.current; apply(v.scale, v.x, v.y) })
     observer.observe(box)
-    return () => { box.removeEventListener('wheel', wheel); observer.disconnect() }
+    return () => { box.removeEventListener('wheel', wheel); box.removeEventListener('touchstart', start); box.removeEventListener('touchmove', move); box.removeEventListener('touchend', start); box.removeEventListener('touchcancel', start); observer.disconnect() }
   }, [])
   const release = (id: number) => { pointers.current.delete(id) }
   return <div className={'interactive-market-map gesture-map' + (compact ? ' compact' : '')} style={{ maxWidth: image.width + 'px' }}>
     <div ref={viewport} className={'map-viewport' + (view.scale > 1 ? ' zoomed' : '')}
       style={{ aspectRatio: image.width + ' / ' + image.height }} tabIndex={0}
-      role="region" aria-label="행사장 지도. 두 손가락 또는 마우스 휠로 확대하고 드래그로 이동합니다. 두 번 누르면 초기화합니다."
+      role="region" aria-label="행사장 지도. 한 손가락은 페이지 스크롤, 두 손가락은 지도 확대와 이동. PC는 Ctrl+휠로 확대하고 드래그로 이동합니다. 두 번 누르면 초기화합니다."
       onKeyDown={event => { if (['+', '=', '-', '0', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) { event.preventDefault(); const v = transform.current; if (event.key === '0') apply(1, 0, 0); else if (['+', '=', '-'].includes(event.key)) zoom(event.key === '-' ? .8 : 1.25); else apply(v.scale, v.x + (event.key === 'ArrowLeft' ? 40 : event.key === 'ArrowRight' ? -40 : 0), v.y + (event.key === 'ArrowUp' ? 40 : event.key === 'ArrowDown' ? -40 : 0)) } }}
       onDoubleClick={() => apply(1, 0, 0)}
-      onPointerDown={event => { if (event.pointerType === 'mouse' && event.button !== 0) return; pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY }); event.currentTarget.setPointerCapture(event.pointerId) }}
+      onPointerDown={event => { if (event.pointerType !== 'mouse' || event.button !== 0) return; pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY }); event.currentTarget.setPointerCapture(event.pointerId) }}
       onPointerMove={event => {
         const before = pointers.current.get(event.pointerId)
         if (!before) return
@@ -61,7 +82,6 @@ export default function ZoomableMap({ image, compact = false }: { image: HomeMed
       onLostPointerCapture={event => release(event.pointerId)}>
       <Image unoptimized draggable={false} src={image.url} alt={image.alt} width={image.width} height={image.height}
         style={{ transform: 'translate(' + view.x + 'px,' + view.y + 'px) scale(' + view.scale + ')' }} />
-      {view.scale > 1 && <button type="button" className="map-reset" onClick={() => apply(1, 0, 0)} aria-label="지도 전체 보기">↺ <span>{Math.round(view.scale * 100)}%</span></button>}
     </div>
   </div>
 }

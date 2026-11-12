@@ -168,3 +168,57 @@ html:has(.festival-detail-page) { scroll-behavior: smooth; }
 .map-program-link { background: #ee4729; color: #fff4d6; }
 .map-program-link span { background: #fff4d6; color: #ee4729; }
 @media(max-width:767px) { .flea-zone-tabs { top: var(--nav-height,76px); } .flea-zone-tabs button { font-size: 13px; padding: 10px 8px; } }
+
+.site-shell p { word-break: keep-all; overflow-wrap: break-word; }
+.home-program-section .program-summary { padding: 22px 18px; border: 0; color: #fff; background: #173361; }
+.home-program-section .overview-program-list { gap: 12px; }
+.home-program-section .program-summary.gold { background: #a9680b; }
+.home-program-section .program-summary.blue { background: #2469a0; }
+.home-program-section .program-summary.orange { background: #c63e25; }
+.home-program-section .program-summary.dark { background: #173361; }
+.home-program-section .program-summary :is(time,strong,p) { color: #fff; }
+.gesture-map .map-viewport { touch-action: pan-y; overscroll-behavior: auto; }
+.detail-back-link.artwork-original-link { background: #ee4729; color: #fff4d6; border-color: #ee4729; text-decoration: none; }
+.detail-back-link.artwork-original-link:hover { background: #fff4d6; color: #ee4729; }
+
+.program-summary .program-time-end::before { content: '–'; }
+.home-program-section .overview-program-list { gap: 0; }
+.home-program-section .program-summary.gold { background: #f2ca42; color: #25281f; }
+.home-program-section .program-summary.gold :is(time,strong,p) { color: #25281f; }
+@media(max-width:767px) {
+ .schedule-mobile.overview-program-list { gap: 0; }
+ .schedule-mobile.overview-program-list .program-summary.gold { background: #f2ca42; color: #25281f; border-color: #f2ca42; }
+ .schedule-mobile.overview-program-list .program-summary.gold :is(time,strong,p) { color: #25281f; }
+ .schedule-mobile.overview-program-list .program-summary { grid-template-columns: 86px minmax(0,1fr); align-items: stretch; }
+ .schedule-mobile.overview-program-list .program-summary time { display: flex; flex-direction: column; justify-content: space-between; align-self: stretch; padding: 0; font-family: Impact, 'Arial Narrow', 'Liberation Sans Narrow', sans-serif; font-stretch: condensed; font-size: 30px; font-weight: 400; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+ .program-summary time > span { display: block; transform: scaleX(.8); transform-origin: left center; }
+ .program-summary .program-time-end::before { content: none; }
+}
+
+.festival-section-tabs { scrollbar-width: none; -ms-overflow-style: none; }
+.festival-section-tabs::-webkit-scrollbar { display: none; }
+
+.program-summary .time-colon { display: inline-block; padding-inline: .07em; font-weight: inherit; }
+.home-program-section .program-summary > div { min-width: 0; }
+.home-program-section .program-summary[data-program=dj] strong { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.festival-section-tabs a { --event-tab-color: #173361; background: var(--event-tab-color); color: #fff; border-color: var(--event-tab-color); }
+.festival-section-tabs a[href="#malwang"] { --event-tab-color: #ee4729; }
+.festival-section-tabs a[href="#school-popup"], .festival-section-tabs a[href="#school-music"] { --event-tab-color: #297abe; }
+.festival-section-tabs a[href="#dj-rave"] { --event-tab-color: #303323; }
+.festival-section-tabs a[href="#rice-sale"] { --event-tab-color: #f2ca42; color: #25281f; }
+.festival-section-tabs a:hover, .festival-section-tabs a:focus-visible { background: var(--event-tab-color); color: #fff; box-shadow: inset 0 0 0 2px #fff; }
+.festival-section-tabs a[href="#rice-sale"]:hover, .festival-section-tabs a[href="#rice-sale"]:focus-visible { color: #25281f; box-shadow: inset 0 0 0 2px #25281f; }
+
+.site-shell .menu-trigger.fixed-menu-toggle { border: 0; box-shadow: none; outline: none; }
+.site-shell .menu-trigger.fixed-menu-toggle:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+.festival-detail-page .overview-program-list .program-summary { background: #173361; color: #fff; border: 0; padding: 22px 18px; }
+.festival-detail-page .overview-program-list .program-summary.blue { background: #2469a0; }
+.festival-detail-page .overview-program-list .program-summary.orange { background: #c63e25; }
+.festival-detail-page .overview-program-list .program-summary.dark { background: #173361; }
+.festival-detail-page .overview-program-list .program-summary :is(time,strong,p) { color: #fff; }
+.festival-detail-page .overview-program-list .program-summary.gold { background: #f2ca42; color: #25281f; }
+.festival-detail-page .overview-program-list .program-summary.gold :is(time,strong,p) { color: #25281f; }
+.festival-section-tabs a[href="#art-flea-market"] { --event-tab-color: #f2ca42; color: #25281f; }
+.festival-section-tabs a[href="#art-flea-market"]:hover, .festival-section-tabs a[href="#art-flea-market"]:focus-visible { color: #25281f; box-shadow: inset 0 0 0 2px #25281f; }
+.site-shell #flea-market { scroll-margin-top: calc(var(--nav-height,96px) + 24px); }
+@media(max-width:767px) { .site-shell #flea-market { scroll-margin-top: calc(var(--nav-height,76px) + 24px); } }

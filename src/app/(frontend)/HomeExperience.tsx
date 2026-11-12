@@ -68,7 +68,7 @@ export default function HomeExperience({ site }: { site: SiteCopy }) {
 
         <div className="content-wrap">
           {site.festival.isVisible && <section className="home-program-section" id="festival"><div className="home-section-inner">
-            <div className="home-section-heading"><span className="section-label">01 / TIME TABLE</span><h2>전체 타임테이블 안내</h2><p>{site.festivalPage.date} · {site.festivalPage.location}</p></div>
+            <div className="home-section-heading"><span className="section-label">01 / TIME TABLE</span><h2>행사 안내</h2><p>{site.festivalPage.date} · {site.festivalPage.location}</p></div>
             <TimetableOverview image={site.festivalPage.timetable || festivalArtwork.overview} />
             <a className="primary-button" href="/festival/#overview" data-ga-event="festival_schedule_click">행사별 자세히 보기 <span aria-hidden="true">↗</span></a>
           </div></section>}

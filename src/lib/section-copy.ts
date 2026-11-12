@@ -32,7 +32,7 @@ export const sectionCopy = {
     linkedNote: '1인 최대 2포까지 구매 가능하며, 준비된 물량 소진 시 조기 종료됩니다.',
   },
   mapPage: {
-    title: '구월과 모래내,\n두 시장을 잇는 특별한 산책.',
+    title: '두 시장을 잇는 산책',
     description: '먹거리부터 공연과 체험까지! MARKET TONIGHT의 주요 장소를 지도에서 확인해 보세요.',
     preparingDescription: '먹거리부터 공연과 체험까지! MARKET TONIGHT의 주요 장소를 한눈에 볼 수 있는 지도를 준비하고 있습니다.',
     placeholderTitle: 'MARKET TONIGHT 축제 지도',

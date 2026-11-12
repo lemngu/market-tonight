@@ -2,7 +2,7 @@
 export const fleaMarketZones = [
   {
     "id": "central-plaza",
-    "name": "중앙광장 - 수협 앞",
+    "name": "중앙광장 - 서문",
     "booths": [
       {
         "number": "가1",
