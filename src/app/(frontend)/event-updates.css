@@ -245,3 +245,5 @@ html:has(.festival-detail-page) { scroll-behavior: smooth; }
 
 .detail-shell .detail-page-heading { margin-top: 24px; margin-bottom: 24px; }
 .festival-section-tabs { padding-right: 0; }
+
+.schedule-mobile.performer-list { gap: 0; }
