@@ -38,12 +38,13 @@ export default function FestivalTabs({ sections }: { sections: string[][] }) {
     const padding = parseFloat(getComputedStyle(bar).paddingLeft) || 0
     const barBox = bar.getBoundingClientRect()
     const linkBox = link.getBoundingClientRect()
+    const rightEdge = barBox.right - (parseFloat(getComputedStyle(bar).paddingRight) || 0)
     const index = sections.findIndex(([id]) => id === active)
     const lastAligned = sections.findIndex(([id]) => id === 'school-music')
     const delta = index <= lastAligned
       ? linkBox.left - barBox.left - padding
-      : linkBox.right > barBox.right
-        ? linkBox.right - barBox.right
+      : linkBox.right > rightEdge
+        ? linkBox.right - rightEdge
         : linkBox.left < barBox.left + padding ? linkBox.left - barBox.left - padding : 0
     bar.scrollTo({ left: bar.scrollLeft + delta, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
   }, [active, sections])
