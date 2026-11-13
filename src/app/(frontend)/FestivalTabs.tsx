@@ -21,12 +21,7 @@ export default function FestivalTabs({ sections }: { sections: string[][] }) {
       setActive(current)
     }
     const requestUpdate = () => { if (!frame) frame = requestAnimationFrame(update) }
-    const size = () => {
-      const last = bar.lastElementChild as HTMLElement | null
-      const padding = parseFloat(getComputedStyle(bar).paddingLeft) || 0
-      bar.style.setProperty('--tabs-tail', Math.max(0, bar.clientWidth - (last?.offsetWidth || 0) - padding * 2) + 'px')
-      requestUpdate()
-    }
+    const size = requestUpdate
     const unlock = () => { lockedUntil.current = 0; requestUpdate() }
     const observer = new ResizeObserver(size)
     observer.observe(bar)

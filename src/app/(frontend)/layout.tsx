@@ -49,6 +49,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 (() => {
   if (/(^|\\/)admin(\\/|$)/.test(location.pathname)) return;
 
+  if (['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) return;
+
   const measurementId = ${JSON.stringify(googleAnalyticsId)};
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { window.dataLayer.push(arguments); };

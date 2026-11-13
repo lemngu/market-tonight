@@ -224,7 +224,6 @@ html:has(.festival-detail-page) { scroll-behavior: smooth; }
 @media(max-width:767px) { .site-shell #flea-market { scroll-margin-top: calc(var(--nav-height,76px) + 24px); } }
 
 @media(max-width:767px) { .schedule-mobile.overview-program-list .program-summary time { font-weight: 900; } }
-.festival-section-tabs::after { content: ''; flex: 0 0 var(--tabs-tail,0px); }
 .festival-section-tabs a:not([aria-current=location]), .festival-section-tabs a:not([aria-current=location]):hover, .festival-section-tabs a:not([aria-current=location]):focus-visible { background: transparent; color: var(--event-tab-color); box-shadow: none; }
 .festival-section-tabs a:is([href="#art-flea-market"],[href="#rice-sale"]):not([aria-current=location]) { color: #8a650b; border-color: #bd8c13; }
 .festival-section-tabs a[aria-current=location] { background: var(--event-tab-color); color: #fff; border-color: var(--event-tab-color); }
@@ -239,3 +238,7 @@ html:has(.festival-detail-page) { scroll-behavior: smooth; }
 @media(prefers-reduced-motion:reduce) { .festival-section-tabs a { transition: none; } }
 
 .rice-benefit-badge { padding: 6px 10px; background: #173361; color: #fff4d6; font-size: 15px; font-weight: 800; line-height: 1.5; }
+
+.site-shell .content-wrap { background: var(--cream); color: var(--navy); }
+
+.detail-page-heading { margin-top: 24px; margin-bottom: 24px; padding-top: 0; padding-bottom: 0; }
