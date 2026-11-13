@@ -242,3 +242,6 @@ html:has(.festival-detail-page) { scroll-behavior: smooth; }
 .site-shell .content-wrap { background: var(--cream); color: var(--navy); }
 
 .detail-page-heading { margin-top: 24px; margin-bottom: 24px; padding-top: 0; padding-bottom: 0; }
+
+.detail-shell .detail-page-heading { margin-top: 24px; margin-bottom: 24px; }
+.festival-section-tabs { padding-right: 0; }

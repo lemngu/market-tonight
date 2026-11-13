@@ -36,8 +36,17 @@ export default function FestivalTabs({ sections }: { sections: string[][] }) {
     const link = bar?.querySelector<HTMLElement>('[aria-current="location"]')
     if (!bar || !link) return
     const padding = parseFloat(getComputedStyle(bar).paddingLeft) || 0
-    bar.scrollTo({ left: bar.scrollLeft + link.getBoundingClientRect().left - bar.getBoundingClientRect().left - padding, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
-  }, [active])
+    const barBox = bar.getBoundingClientRect()
+    const linkBox = link.getBoundingClientRect()
+    const index = sections.findIndex(([id]) => id === active)
+    const lastAligned = sections.findIndex(([id]) => id === 'school-music')
+    const delta = index <= lastAligned
+      ? linkBox.left - barBox.left - padding
+      : linkBox.right > barBox.right
+        ? linkBox.right - barBox.right
+        : linkBox.left < barBox.left + padding ? linkBox.left - barBox.left - padding : 0
+    bar.scrollTo({ left: bar.scrollLeft + delta, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
+  }, [active, sections])
   return <nav ref={nav} className="festival-section-tabs" aria-label="행사 안내 바로가기">
     {sections.map(([id, title]) => <a key={id} href={'#' + id} aria-current={active === id ? 'location' : undefined}
       onClick={() => { lockedUntil.current = performance.now() + 1000; setActive(id); if (timer.current) clearTimeout(timer.current); timer.current = setTimeout(() => { lockedUntil.current = 0; window.dispatchEvent(new Event('scroll')) }, 1100) }}>{title}</a>)}
